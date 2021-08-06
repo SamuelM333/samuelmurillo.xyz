@@ -105,6 +105,10 @@ theme_config:
     linkedin: https://www.linkedin.com/in/samuel-murillo/
     mail: mailto:contact@samuelmurillo.xyz
 
+  copyright:
+    start_year: 2017
+    end_year:
+
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
