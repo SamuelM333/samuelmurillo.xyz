@@ -99,6 +99,13 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: cactus
 
+theme_config:
+  social_links:
+    github: http://github.com/SamuelM333
+    linkedin: https://www.linkedin.com/in/samuel-murillo/
+    mail: mailto:contact@samuelmurillo.xyz
+
+
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
