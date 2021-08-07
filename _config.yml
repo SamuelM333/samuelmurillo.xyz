@@ -39,8 +39,11 @@ external_link:
   field: site # Apply to the whole site
   exclude: ''
 filename_case: 0
-render_drafts: false
-post_asset_folder: false
+render_drafts: true
+post_asset_folder: true
+marked:
+  prependRoot: true
+  postAsset: true
 relative_link: false
 future: true
 highlight:
@@ -100,6 +103,17 @@ ignore:
 theme: cactus
 
 theme_config:
+  projects_url: ''
+
+  nav:
+    home: /
+    about: /about/
+    articles: /archives/
+    #projects: projects_url
+
+  post:
+    show_updated: true
+  
   social_links:
     github: http://github.com/SamuelM333
     linkedin: https://www.linkedin.com/in/samuel-murillo/
@@ -108,7 +122,10 @@ theme_config:
   copyright:
     start_year: 2017
     end_year:
-
+  
+  favicon:
+  logo:
+    enabled: false
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
