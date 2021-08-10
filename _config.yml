@@ -103,17 +103,20 @@ ignore:
 theme: cactus
 
 theme_config:
-  projects_url: ''
+  # tags_overview: true
+  # page_width: 55
 
   nav:
     home: /
     about: /about/
-    #articles: /archives/
-    #projects: projects_url
+    articles: /archives/
 
   post:
     show_updated: true
   
+  posts_overview:
+    show_all_posts: true
+
   social_links:
     github: http://github.com/SamuelM333
     linkedin: https://www.linkedin.com/in/samuel-murillo/
@@ -123,9 +126,20 @@ theme_config:
     start_year: 2017
     end_year:
   
-  favicon:
   logo:
-    enabled: false
+    enabled: true
+    width: 50
+    height: 50
+    url: /images/logo.png
+    grayout: false
+
+  favicon:
+    desktop:
+      url: /images/favicon.ico
+    android:
+      url: /images/favicon-192x192.png
+    apple:
+      url: /images/apple-touch-icon.png
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
