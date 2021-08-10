@@ -1,6 +1,6 @@
 ---
 title: about
-date: 2021-08-06 08:33:25
+date: 2021-08-09 21:15:25
 ---
 
-Test
+I'm an SRE with a software development background, dedicated to observability and cloud solutions.
