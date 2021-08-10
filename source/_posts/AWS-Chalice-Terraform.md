@@ -3,8 +3,8 @@ title: AWS Chalice + Terraform
 date: 2021-07-27 08:33:25
 tags:
   - aws
-  - lambda
   - chalice
+  - lambda
   - python
   - serverless
   - terraform
@@ -78,7 +78,7 @@ terraform init
 │ A default (non-aliased) provider configuration for "aws" was already given at chalice.tf.json:122,12-13. If multiple configurations are required, set the "alias" argument for alternative configurations.
 ```
 
-If we peek at the auto-generated Terraform code at `chalice.tf.json`, looking for the provider key, we see a simple AWS provider definition with a version constraint.
+If we peek at the auto-generated Terraform code at `chalice.tf.json`, looking for the provider key, we see a simple AWS provider definition with just a version constraint.
 ```json
 {
   ...
