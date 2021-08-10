@@ -29,7 +29,7 @@ chalice new-project chalice-tf
 cd chalice-tf
 ```
 
-This creates a simple REST API with a hello world endpoint
+This creates a simple REST API with a hello world endpoint.
 
 Now the fun part: let's package and export this simple application to Terraform:
 
@@ -57,10 +57,10 @@ Plan: 6 to add, 0 to change, 0 to destroy.
 
 We see a few notable resources here:
 `aws_api_gateway_deployment.rest_api` and `aws_api_gateway_rest_api.rest_api`: 
-API Gateway resources. This is one of the helpful parts of Chalice
+API Gateway resources. This is one of the helpful parts of Chalice.
 
 `aws_lambda_function.api_handler`:
-The lambda function itself, with its code in a zip file
+The lambda function itself, with its code in a zip file.
 
 `aws_iam_role.default-role` and `aws_iam_role_policy.default-role`: 
 The default IAM role, with a generated policy that allows accessing the resources created. This is helpful for a quick POC, but in a production environment you might want to customize the IAM policy yourself. More on this later.
