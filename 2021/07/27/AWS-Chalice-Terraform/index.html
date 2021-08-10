@@ -14,7 +14,7 @@
 <meta property="og:description" content="AWS Chalice is yet another Python serverless framework, like Zappa and the Serverless Framework (what a confusing name). What makes Chalice special is that it has Terraform Support, meaning that it is">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-07-27T11:33:25.000Z">
-<meta property="article:modified_time" content="2021-08-10T02:01:36.874Z">
+<meta property="article:modified_time" content="2021-08-10T02:08:35.931Z">
 <meta property="article:author" content="Samuel Murillo">
 <meta property="article:tag" content="aws">
 <meta property="article:tag" content="python">
@@ -53,8 +53,6 @@
           <li><a href="/">Home</a></li>
          
           <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
         
       </ul>
     </span>
@@ -115,7 +113,7 @@
       
         <time datetime="2021-07-27T11:33:25.000Z" itemprop="datePublished">2021-07-27</time>
         
-        (Updated: <time datetime="2021-08-10T02:01:36.874Z" itemprop="dateModified">2021-08-09</time>)
+        (Updated: <time datetime="2021-08-10T02:08:35.931Z" itemprop="dateModified">2021-08-09</time>)
         
       
     </div>
@@ -141,7 +139,7 @@
 <h2 id="How-to"><a href="#How-to" class="headerlink" title="How-to"></a>How-to</h2><p>Let’s start by creating a sample Chalice project:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pyenv virtualenv chalice-tf</span><br><span class="line">pyenv activate chalice-tf</span><br><span class="line">pip install chalice</span><br><span class="line">chalice new-project chalice-tf</span><br><span class="line"><span class="built_in">cd</span> chalice-tf</span><br></pre></td></tr></table></figure>
 
-<p>This creates a simple REST API with a hello world endpoint</p>
+<p>This creates a simple REST API with a hello world endpoint.</p>
 <p>Now the fun part: let’s package and export this simple application to Terraform:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chalice package --pkg-format terraform .</span><br></pre></td></tr></table></figure>
 
@@ -154,8 +152,8 @@
 <p>Now, let’s test it:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">terraform init &amp;&amp; terraform plan</span><br><span class="line">Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:</span><br><span class="line">  + create</span><br><span class="line"> &lt;= <span class="built_in">read</span> (data resources)</span><br><span class="line"></span><br><span class="line">... (omit plan output)</span><br><span class="line"></span><br><span class="line">Plan: 6 to add, 0 to change, 0 to destroy.</span><br></pre></td></tr></table></figure>
 
-<p>We see a few notable resources here:<br><code>aws_api_gateway_deployment.rest_api</code> and <code>aws_api_gateway_rest_api.rest_api</code>:<br>API Gateway resources. This is one of the helpful parts of Chalice</p>
-<p><code>aws_lambda_function.api_handler</code>:<br>The lambda function itself, with its code in a zip file</p>
+<p>We see a few notable resources here:<br><code>aws_api_gateway_deployment.rest_api</code> and <code>aws_api_gateway_rest_api.rest_api</code>:<br>API Gateway resources. This is one of the helpful parts of Chalice.</p>
+<p><code>aws_lambda_function.api_handler</code>:<br>The lambda function itself, with its code in a zip file.</p>
 <p><code>aws_iam_role.default-role</code> and <code>aws_iam_role_policy.default-role</code>:<br>The default IAM role, with a generated policy that allows accessing the resources created. This is helpful for a quick POC, but in a production environment you might want to customize the IAM policy yourself. More on this later.</p>
 <h2 id="Add-your-own-Terraform-code"><a href="#Add-your-own-Terraform-code" class="headerlink" title="Add your own Terraform code"></a>Add your own Terraform code</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">terraform init</span><br><span class="line">╷</span><br><span class="line">│ Error: Duplicate provider configuration</span><br><span class="line">│ </span><br><span class="line">│   on providers.tf line 9:</span><br><span class="line">│    9: provider &quot;aws&quot; &#123;</span><br><span class="line">│ </span><br><span class="line">│ A default (non-aliased) provider configuration for &quot;aws&quot; was already given at chalice.tf.json:122,12-13. If multiple configurations are required, set the &quot;alias&quot; argument for alternative configurations.</span><br></pre></td></tr></table></figure>
 
@@ -182,8 +180,6 @@
           <li><a href="/">Home</a></li>
          
           <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
         
       </ul>
     </div>
@@ -235,8 +231,6 @@
           <li><a href="/">Home</a></li>
          
           <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
         
       </ul>
     </nav>
