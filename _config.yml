@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: samuelmurillo.xyz
+title: Samuel Murillo
 subtitle: ''
 description: 'Computer Engineer/Site Reliability Engineer'
-keywords:
+keywords: 'sre'
 author: Samuel Murillo
 language: en
 timezone: 'America/Argentina/Buenos_Aires'
