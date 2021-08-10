@@ -108,7 +108,7 @@ theme_config:
   nav:
     home: /
     about: /about/
-    articles: /archives/
+    #articles: /archives/
     #projects: projects_url
 
   post:
