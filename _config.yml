@@ -33,7 +33,7 @@ skip_render:
 # Writing
 new_post_name: :title.md # File name of new posts
 default_layout: post
-titlecase: false # Transform title into titlecase
+titlecase: true # Transform title into titlecase
 external_link:
   enable: true # Open external links in new tab
   field: site # Apply to the whole site
@@ -113,9 +113,6 @@ theme_config:
 
   post:
     show_updated: true
-  
-  posts_overview:
-    show_all_posts: true
 
   social_links:
     github: http://github.com/SamuelM333
@@ -127,19 +124,12 @@ theme_config:
     end_year:
   
   logo:
-    enabled: true
-    width: 50
-    height: 50
-    url: /images/logo.png
-    grayout: false
+    enabled: false
 
   favicon:
     desktop:
-      url: /images/favicon.ico
     android:
-      url: /images/favicon-192x192.png
     apple:
-      url: /images/apple-touch-icon.png
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
