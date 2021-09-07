@@ -22,9 +22,14 @@ Having just one Infrastructure-as-Code tool in your project provides simplicity,
 Let's start by creating a sample Chalice project:
 
 ```sh
+# create a virtualenv
 pyenv virtualenv chalice-tf
 pyenv activate chalice-tf
+
+# install chalice
 pip install chalice
+
+# set up a new chalice project
 chalice new-project chalice-tf
 cd chalice-tf
 ```
@@ -38,14 +43,18 @@ chalice package --pkg-format terraform .
 ```
 
 This does two main things:
-1. Package your Python code and requirements into a zip, located at `deployment.zip`
-2. Generate the Terraform code with all the infra required to run your app, located at `chalice.tf.json`
+1. Package your Python code and requirements into a zip file, located at `deployment.zip`
+2. Generate the Terraform code with all the infra required to deploy your app, located at `chalice.tf.json`
 
 You will have to run this command every time you change your code, so make sure you add it to your CI/CD pipeline.
 
 Now, let's test it:
 ```sh
 terraform init && terraform plan
+
+Initializing the backend...
+... (omit init output)
+
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
   + create
  <= read (data resources)
@@ -75,7 +84,25 @@ Plan: 6 to add, 0 to change, 0 to destroy.
 Changes to Outputs:
   + EndpointURL = (known after apply)
   + RestAPIId   = (known after apply)
+
+  ... (omit apply output)
+
+Apply complete! Resources: 6 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+EndpointURL = "https://ht0npswgm8.execute-api.us-east-1.amazonaws.com/api"
+RestAPIId = "ht0npswgm8"
 ```
+
+If we hit the endpoint url with `curl`:
+
+```sh
+curl https://ht0npswgm8.execute-api.us-east-1.amazonaws.com/api
+{"hello":"world"}
+```
+
+This is a minimal example of AWS Chalice, but we can do better.
 
 ## Add your own Terraform code
 
@@ -118,23 +145,91 @@ def handle_sqs_message(event):
 
 Package the new Chalice code:
 
-`chalice package --pkg-format terraform .`
+```sh
+chalice package --pkg-format terraform .
+```
 
 Apply the new terraform code:
+
+```sh
+terraform apply
+  ... (omit plan output)
+Plan: 8 to add, 3 to change, 1 to destroy.
+
+Changes to Outputs:
+  ~ EndpointURL = "https://ht0npswgm8.execute-api.us-east-1.amazonaws.com/api" -> (known after apply)
+  + queue_url   = (known after apply)
+  + topic_arn   = (known after apply)
+
+  ... (omit apply output)
+
+Apply complete! Resources: 8 added, 2 changed, 1 destroyed.
+
+Outputs:
+
+EndpointURL = "https://ht0npswgm8.execute-api.us-east-1.amazonaws.com/api"
+RestAPIId = "ht0npswgm8"
+queue_url = "https://sqs.us-east-1.amazonaws.com/123456789123/chalice-tf-queue"
+topic_arn = "arn:aws:sns:us-east-1:123456789123:chalice-tf-topic"
+```
 
 With this, we've just created two new lambda functions, with SNS and SQS triggers.
 Now publish messages to your newly created topic and queue:
 
-`aws sns publish --topic-arn arn:aws:sns:us-east-1:123456789123:chalice-tf-topic --message "Hello from SNS!"`
-`aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/123456789123/chalice-test-queue --message-body "Hello from SQS"`
+```sh
+aws sns publish --topic-arn arn:aws:sns:us-east-1:123456789123:chalice-tf-topic --message "Hello from SNS!"
+aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/123456789123/chalice-test-queue --message-body "Hello from SQS"
+```
 
 Check the CloudWatch logs of your functions using Chalice itself:
-`chalice logs --name handle_sns_message`
-`chalice logs --name handle_sqs_message`
+```sh
+chalice logs --name handle_sns_message
+chalice logs --name handle_sqs_message
+```
+At the time of writing, this doesn't seem to work.
+See https://github.com/aws/chalice/issues/1665
+
+We can use the AWS CLI to get our CloudWatch logs:
+
+```sh
+LOG_GROUP_NAME="/aws/lambda/chalice-tf-dev-handle_sns_message"
+LOG_STREAM_NAME=$(aws logs describe-log-streams --log-group-name "${LOG_GROUP_NAME}" | jq -r '.logStreams | sort_by(.creationTime) | .[-1].logStreamName')
+aws logs get-log-events --log-group-name "${LOG_GROUP_NAME}" --log-stream-name "${LOG_STREAM_NAME}" | jq -r '.events[] | select(has("message")) | .message'
+
+START RequestId: 0fea9a54-5d59-4e95-9422-b315e0393a51 Version: $LATEST
+
+Received message with subject: (None,), message: Hello from SNS
+
+END RequestId: 0fea9a54-5d59-4e95-9422-b315e0393a51
+
+REPORT RequestId: 0fea9a54-5d59-4e95-9422-b315e0393a51	Duration: 1.18 ms	Billed Duration: 2 ms	Memory Size: 128 MB	Max Memory Used: 54 MB	Init Duration: 146.71 message
+```
+
+```sh
+LOG_GROUP_NAME="/aws/lambda/chalice-tf-dev-handle_sqs_message"
+LOG_STREAM_NAME=$(aws logs describe-log-streams --log-group-name "${LOG_GROUP_NAME}" | jq -r '.logStreams | sort_by(.creationTime) | .[-1].logStreamName')
+aws logs get-log-events --log-group-name "${LOG_GROUP_NAME}" --log-stream-name "${LOG_STREAM_NAME}" | jq -r '.events[] | select(has("message")) | .message'
+
+START RequestId: 8e5ab039-16cb-56e8-8b8b-e989affd04dd Version: $LATEST
+
+Received message with contents: Hello from SQS
+
+END RequestId: 8e5ab039-16cb-56e8-8b8b-e989affd04dd
+
+REPORT RequestId: 8e5ab039-16cb-56e8-8b8b-e989affd04dd	Duration: 1.48 ms	Billed Duration: 2 ms	Memory Size: 128 MB	Max Memory Used: 54 MB	Init Duration: 160.67 ms
+```
+
+After we are all done testing, we can clean after ourselves by running:
+
+```sh
+terraform destroy
+```
 
 ## Referencing Terraform values inside Chalice
 
-At the time of writting this is not properly documented, but it is possible to reference Terraform values on the Chalice config file:
+Chalice can be configured using its own config file, located at `.chalice/config.json`. See https://aws.github.io/chalice/topics/configfile.html for more information about the available settings.
+
+At the time of writing this is not properly documented, but it is possible to reference Terraform values on the Chalice config file, like this:
 
 ```json
 {
@@ -145,9 +240,14 @@ At the time of writting this is not properly documented, but it is possible to r
 }
 ```
 
-More info:
-https://aws.github.io/chalice/topics/configfile.html
-https://github.com/aws/chalice/issues/1533
+As you can see, we are using Terraform syntax, since these keys as passed as literals to `chalice.tf.json` during packaging.
+
+In this example, we are setting a Security group and Subnet to all of our functions. These IDs are retrieved using Terraform, without the need of a middleware data storage, like SSM.
+
+More info here: https://github.com/aws/chalice/issues/1533
+
+You could also set here the `iam_role_arn` of a pre-existing IAM role, instead of letting Chalice generating one for you. This is a good approach for production environments.
+See https://aws.github.io/chalice/topics/configfile.html#iam-roles-and-policies for a practical example.
 
 ## Fixing the duplicated provider error
 
@@ -193,42 +293,37 @@ cat <<< $(jq 'del(.provider.aws)' chalice.tf.json) > chalice.tf.json
 
 ## Local development with LocalStack
 
-`pip install localstack`
+So far we have deployed our infrastructure against the cloud. This could be a slow process during development, even more if debugging a pesky error.
 
-```json
-{
-  "version": "2.0",
-  "app_name": "chalice-tf",
-  "subnet_ids": "${data.aws_subnet_ids.public.ids}",
-  "security_group_ids": ["${module.security_group_service.security_group_id}"],
-  "stages": {
-    "local": {
-      "api_gateway_stage": "local",
-      "subnet_ids": [],
-      "security_group_ids": [],
-    },
-    "dev": {
-      "api_gateway_stage": "dev"
-    }
-  }
-}
+It is possible to deploy our infrastructure against [LocalStack](https://github.com/localstack/localstack), a project that aims to emulate AWS resources and API calls locally, using Docker as its backend.
+
+The LocalStack team also provide [chalice-local](https://github.com/localstack/chalice-local), a tool that will be useful for checking logs and invoking our functions.
+
+One more tool that we are going to use is [awscli-local](https://github.com/localstack/awscli-local), which is simply the AWS CLI with some configuration to run against LocalStack, instead of actual AWS servers.
+
+We can install all these tools using `pip`:
+
+```sh
+pip install localstack chalice-local awscli-local
 ```
 
-https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack
+Follow https://github.com/localstack/localstack#running to get up and running with LocalStack.
+
+These are the steps followed to run the sample app we have built so far locally:
+
+1. Configure and start LocalStack:
+
+```sh
+export SERVICES=sqs,sns,ssm,sts,logs,iam,apigateway,lambda,events,kms,ec2,cloudwatch,s3
+localstack start
+```
+2. Configure the AWS Terraform provider to point to LocalStack:
 
 ```terraform
-terraform {
-  required_version = ">= 0.12"
-
-  backend "local" {
-    path = "terraform.localstack.tfstate"
-  }
-}
-
 provider "aws" {
   access_key                  = "mock_access_key"
   secret_key                  = "mock_secret_key"
-  region                      = var.region
+  region                      = "us-east-1"
   s3_force_path_style         = true
   skip_credentials_validation = true
   skip_metadata_api_check     = true
@@ -262,17 +357,99 @@ provider "aws" {
 }
 
 output "local_url" {
-  value = "http://localhost:4566/restapis/${aws_api_gateway_rest_api.rest_api.id}/local/_user_request_/"
+  value       = "http://localhost:4566/restapis/${aws_api_gateway_rest_api.rest_api.id}/local/_user_request_/"
+  description = "API Gateway URL for LocalStack"
 }
 ```
 
-`terraform apply -auto-approve -refresh=false`
+More info here:
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack
 
-`chalice-local logs --stage local --include-lambda-messages -n handle_sns_message`
+3. Add a local stage to the Chalice config file
+
+LocalStack isn't perfect. Sometimes their API fails to retrieve VPC data (among other errors). One way of getting around these errors is disabling VPC locally:
+
+```json
+{
+  "version": "2.0",
+  "app_name": "chalice-tf",
+  "subnet_ids": "${data.aws_subnet_ids.public.ids}",
+  "security_group_ids": ["${module.security_group_service.security_group_id}"],
+  "stages": {
+    "local": {
+      "api_gateway_stage": "local",
+      "subnet_ids": [],
+      "security_group_ids": [],
+    },
+    "dev": {
+      "api_gateway_stage": "dev"
+    }
+  }
+}
+```
+
+Here we keep our Security group and Subnet configuration for all of our functions on all stages but local, where we manually disable them.
+
+4. Package the app with the local stage configuration
+
+```sh
+chalice package --stage local --pkg-format terraform .
+```
+
+5. Apply the Terraform code against LocalStack
+
+```sh
+# Refreshing against LocalStack can be unstable. We don't really need it here so we can disable it
+terraform apply -refresh=false
+```
+
+If everything goes right, you should have the same application you had in AWS up and running locally. You may have also noticed that applying against LocalStack is blazing fast compared to AWS.
+
+Let's test our functions:
+
+```sh
+curl http://localhost:4566/restapis/ur5mwyfjy6/local/_user_request_/
+{"hello":"world"}
+```
+
+Hit the local SNS and SQS server:
+
+```sh
+awslocal sns publish --topic-arn arn:aws:sns:us-east-1:000000000000:chalice-tf-topic --message "local SNS"
+awslocal sqs send-message --queue-url http://localhost:4566/000000000000/chalice-tf-queue --message-body "local SQS"
+```
+
+See the logs of the local functions:
+
+```sh
+chalice-local logs --stage local --name handle_sns_message
+
+2021-09-06 20:09:48.453000 57bc1a START RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb Version: $LATEST
+2021-09-06 20:09:48.457000 57bc1a
+2021-09-06 20:09:48.461000 57bc1a Received message with subject: None, message: local SNS
+2021-09-06 20:09:48.469000 57bc1a END RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb
+2021-09-06 20:09:48.473000 57bc1a
+2021-09-06 20:09:48.481000 57bc1a REPORT RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb	Init Duration: 923.26 ms	Duration: 4.44 ms	Billed Duration: 5 ms	Memory Size: 1536 MB	Max Memory Used: 46 MB
+2021-09-06 20:09:48.485000 57bc1a
+
+
+chalice-local logs --stage local --name handle_sqs_message
+
+2021-09-06 20:10:02.453000 4c64e0 START RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb Version: $LATEST
+2021-09-06 20:10:02.457000 4c64e0
+2021-09-06 20:10:02.461000 4c64e0 Received message with contents: local SQS
+2021-09-06 20:10:02.469000 4c64e0 END RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb
+2021-09-06 20:10:02.473000 4c64e0
+2021-09-06 20:10:02.481000 4c64e0 REPORT RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb	Init Duration: 923.26 ms	Duration: 5.14 ms	Billed Duration: 6 ms	Memory Size: 1536 MB	Max Memory Used: 46 MB
+2021-09-06 20:10:02.485000 4c64e0
+
+```
 
 ## Handle bigger codebases
 
 https://aws.github.io/chalice/topics/blueprints.html
 
+<!--
 ## Cookiecutter template
-<!-- You can find my cookiecutter at ... that includes Datadog, AWS Lambda Powertools -->
+You can find my cookiecutter at ... that includes Datadog, AWS Lambda Powertools
+-->
