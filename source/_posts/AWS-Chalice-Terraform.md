@@ -134,7 +134,7 @@ Now open `app.py` and add these two functions:
 ```python
 @app.on_sns_message(topic='chalice-tf-topic')
 def handle_sns_message(event):
-    print(f"Received message with subject: {event.subject,}, message: {event.message}")
+    print(f"Received message with subject: {event.subject}, message: {event.message}")
 
 
 @app.on_sqs_message(queue='chalice-tf-queue', batch_size=1)
@@ -442,12 +442,59 @@ chalice-local logs --stage local --name handle_sqs_message
 2021-09-06 20:10:02.473000 4c64e0
 2021-09-06 20:10:02.481000 4c64e0 REPORT RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb	Init Duration: 923.26 ms	Duration: 5.14 ms	Billed Duration: 6 ms	Memory Size: 1536 MB	Max Memory Used: 46 MB
 2021-09-06 20:10:02.485000 4c64e0
-
 ```
 
 ## Handle bigger codebases
 
-https://aws.github.io/chalice/topics/blueprints.html
+Chalice has the concept of blueprints, similar to [Flask's blueprints](https://exploreflask.com/en/latest/blueprints.html). It is an handy way of organizing a bigger project with multiple files and namespaces.
+
+Read more here https://aws.github.io/chalice/topics/blueprints.html
+
+Keep in mind that Chalice has the requirement of including your custom files inside the `chalicelib` folder. More info here: https://aws.github.io/chalice/topics/packaging
+
+With this knowledge, let's expand our project using blueprints:
+
+```sh
+mkdir chalicelib
+touch chalicelib/__init__.py
+touch chalicelib/api.py
+touch chalicelib/events.py
+```
+
+Now, let's add HTTP events to `chalicelib/api.py`
+
+```python
+from chalice import Blueprint
+
+
+extra_routes = Blueprint(__name__)
+
+@extra_routes.route('/foo')
+def foo():
+    return {'foo': 'bar'}
+```
+
+Add some subscription events to `chalicelib/events.py`
+
+```python
+from chalice import Blueprint
+
+
+extra_events = Blueprint(__name__)
+
+@extra_events.on_sns_message(topic='chalice-tf-topic')
+def handle_sns_message_blueprint(event):
+    print(f"Received message with subject: {event.subject}, message: {event.message} from blueprint")
+```
+
+Lastly, let's register these blueprints on `app.py`:
+
+```python
+from chalicelib.blueprints import extra_events, extra_routes 
+
+app.register_blueprint(extra_events)
+app.register_blueprint(extra_routes)
+```
 
 <!--
 ## Cookiecutter template
