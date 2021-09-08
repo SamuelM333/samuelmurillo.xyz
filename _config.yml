@@ -122,7 +122,7 @@ theme_config:
   copyright:
     start_year: 2017
     end_year:
-  
+
   logo:
     enabled: false
 
@@ -130,6 +130,11 @@ theme_config:
     desktop:
     android:
     apple:
+
+  umami_analytics:
+    enabled: true
+    id: 68f899a3-bd5d-4b32-b416-4bad0724958e
+    host: https://umami-samuelmurillo-xyz.herokuapp.com
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
