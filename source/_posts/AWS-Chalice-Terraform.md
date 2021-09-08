@@ -446,11 +446,11 @@ chalice-local logs --stage local --name handle_sqs_message
 
 ## Handle bigger codebases
 
-Chalice has the concept of blueprints, similar to [Flask's blueprints](https://exploreflask.com/en/latest/blueprints.html). It is an handy way of organizing a bigger project with multiple files and namespaces.
+Chalice has the concept of blueprints, similar to [Flask's blueprints](https://exploreflask.com/en/latest/blueprints.html). It is a handy way of organizing bigger projects with multiple files and namespaces.
 
-Read more here https://aws.github.io/chalice/topics/blueprints.html
+Read more about blueprints here https://aws.github.io/chalice/topics/blueprints.html
 
-Keep in mind that Chalice has the requirement of including your custom files inside the `chalicelib` folder. More info here: https://aws.github.io/chalice/topics/packaging
+Keep in mind that Chalice has the requirement of including custom files inside the `chalicelib` folder. More info here: https://aws.github.io/chalice/topics/packaging
 
 With this knowledge, let's expand our project using blueprints:
 
