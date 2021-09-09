@@ -4,6 +4,7 @@ date: 2021-06-04 08:33:25
 tags:
   - aws
   - datadog
+  - lambda
   - python
   - serverless
 ---
@@ -13,9 +14,10 @@ tags:
 
 According to Datadog’s Serverless distributed tracing documentation:
 
-> Tracing non-HTTP requests made through SNS, Kinesis, EventBridge, MQTT and more (requires additional instrumention outlined [here](https://docs.datadoghq.com/serverless/distributed_tracing/serverless_trace_propagation/?tab=python)).
+{% blockquote Datadog https://docs.datadoghq.com/serverless/distributed_tracing/ Distributed Tracing %}
+Tracing non-HTTP requests made through SNS, Kinesis, EventBridge, MQTT and more (requires additional instrumention outlined [here](https://docs.datadoghq.com/serverless/distributed_tracing/serverless_trace_propagation/?tab=python)).
+{% endblockquote %}
 
-Source: [Distributed Tracing](https://docs.datadoghq.com/serverless/distributed_tracing/) 
 
 Following that documentation, we learned that Datadog is not capable of propagating trace IDs through SNS automatically, and requires extra instrumentation, documented here: 
 
