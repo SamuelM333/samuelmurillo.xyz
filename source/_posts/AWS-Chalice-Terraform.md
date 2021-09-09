@@ -17,6 +17,8 @@ What makes Chalice special is the fact that it has [Terraform Support](https://a
 
 Having just one Infrastructure-as-Code tool in your project provides simplicity, more control over your application, and being able to reference serverless values directly in your Terraform without having to use a middleware data storage, like SSM.
 
+Chalice also handles event subscription and HTTP routing elegantly using decorators built-in on the code, instead of unnecessarily verbose YAML files.
+
 ## How-to
 
 Let's start by creating a sample Chalice project:
@@ -142,8 +144,6 @@ def handle_sqs_message(event):
     for record in event:
         print(f"Received message with contents: {record.body}")
 ```
-
-Here we can see how Chalice handles event subscription. It is built-in on the code elegantly using decorators, instead of unnecessarily verbose YAML.
 
 Package the new Chalice code:
 
@@ -495,7 +495,7 @@ def handle_sns_message_blueprint(event):
 Lastly, let's register these blueprints on `app.py`:
 
 ```python
-from chalicelib.blueprints import extra_events, extra_routes 
+from chalicelib.blueprints import extra_events, extra_routes
 
 app.register_blueprint(extra_events)
 app.register_blueprint(extra_routes)
