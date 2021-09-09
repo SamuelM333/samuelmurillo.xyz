@@ -6,22 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="AWS Chalice is yet another Python serverless framework, like Zappa and the Serverless Framework (what a confusing name). What makes Chalice special is that it has Terraform Support, meaning that it is">
+    <meta name="description" content="AWS Chalice is yet another Python serverless framework, like Zappa and the Serverless Framework (what a confusing name). What makes Chalice special is the fact that it has Terraform Support">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AWS Chalice + Terraform">
+<meta property="og:title" content="AWS Chalice + Terraform: A Serverless Codebase That Makes Sense">
 <meta property="og:url" content="https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/index.html">
 <meta property="og:site_name" content="Samuel Murillo">
-<meta property="og:description" content="AWS Chalice is yet another Python serverless framework, like Zappa and the Serverless Framework (what a confusing name). What makes Chalice special is that it has Terraform Support, meaning that it is">
+<meta property="og:description" content="AWS Chalice is yet another Python serverless framework, like Zappa and the Serverless Framework (what a confusing name). What makes Chalice special is the fact that it has Terraform Support">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-07-27T11:33:25.000Z">
-<meta property="article:modified_time" content="2021-09-08T12:46:02.392Z">
+<meta property="article:modified_time" content="2021-09-09T03:08:40.819Z">
 <meta property="article:author" content="Samuel Murillo">
 <meta property="article:tag" content="aws">
-<meta property="article:tag" content="python">
+<meta property="article:tag" content="lambda">
 <meta property="article:tag" content="serverless">
+<meta property="article:tag" content="python">
 <meta property="article:tag" content="terraform">
 <meta property="article:tag" content="chalice">
-<meta property="article:tag" content="lambda">
 <meta name="twitter:card" content="summary">
     
     
@@ -30,7 +30,7 @@
       
     
     <!-- title -->
-    <title>AWS Chalice + Terraform</title>
+    <title>AWS Chalice + Terraform: A Serverless Codebase That Makes Sense</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -57,8 +57,6 @@
           <li><a href="/">Home</a></li>
          
           <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
         
       </ul>
     </span>
@@ -79,21 +77,22 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&text=AWS Chalice + Terraform"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&is_video=false&description=AWS Chalice + Terraform"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=AWS Chalice + Terraform&body=Check out this article: https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&name=AWS Chalice + Terraform&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&t=AWS Chalice + Terraform"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&text=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&is_video=false&description=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense&body=Check out this article: https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&name=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense&description=&lt;p&gt;&lt;a href=&#34;https://aws.github.io/chalice/&#34;&gt;AWS Chalice&lt;/a&gt; is yet another Python serverless framework, like &lt;a href=&#34;https://github.com/zappa/Zappa&#34;&gt;Zappa&lt;/a&gt; and the &lt;a href=&#34;serverless.com&#34;&gt;Serverless Framework&lt;/a&gt; (what a confusing name).&lt;/p&gt;
+&lt;p&gt;What makes Chalice special is the fact that it has &lt;a href=&#34;https://aws.github.io/chalice/topics/tf&#34;&gt;Terraform Support&lt;/a&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&t=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to"><span class="toc-number">1.</span> <span class="toc-text">How-to</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Add-your-own-Terraform-code"><span class="toc-number">2.</span> <span class="toc-text">Add your own Terraform code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Referencing-Terraform-values-inside-Chalice"><span class="toc-number">3.</span> <span class="toc-text">Referencing Terraform values inside Chalice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fixing-the-duplicated-provider-error"><span class="toc-number">4.</span> <span class="toc-text">Fixing the duplicated provider error</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Local-development-with-LocalStack"><span class="toc-number">5.</span> <span class="toc-text">Local development with LocalStack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handle-bigger-codebases"><span class="toc-number">6.</span> <span class="toc-text">Handle bigger codebases</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to"><span class="toc-number">1.</span> <span class="toc-text">How-to</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Add-your-own-Terraform-code"><span class="toc-number">2.</span> <span class="toc-text">Add your own Terraform code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Referencing-Terraform-values-inside-Chalice"><span class="toc-number">3.</span> <span class="toc-text">Referencing Terraform values inside Chalice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fixing-the-duplicated-provider-error"><span class="toc-number">4.</span> <span class="toc-text">Fixing the duplicated provider error</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Local-development-with-LocalStack"><span class="toc-number">5.</span> <span class="toc-text">Local development with LocalStack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handle-bigger-codebases-using-blueprints"><span class="toc-number">6.</span> <span class="toc-text">Handle bigger codebases using blueprints</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Should-you-use-Chalice-for-your-next-project"><span class="toc-number">7.</span> <span class="toc-text">Should you use Chalice for your next project?</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -105,7 +104,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        AWS Chalice + Terraform
+        AWS Chalice + Terraform: A Serverless Codebase That Makes Sense
     </h1>
 
 
@@ -119,7 +118,7 @@
       
         <time datetime="2021-07-27T11:33:25.000Z" itemprop="datePublished">2021-07-27</time>
         
-        (Updated: <time datetime="2021-09-08T12:46:02.392Z" itemprop="dateModified">2021-09-08</time>)
+        (Updated: <time datetime="2021-09-09T03:08:40.819Z" itemprop="dateModified">2021-09-09</time>)
         
       
     </div>
@@ -140,8 +139,9 @@
 
   <div class="content" itemprop="articleBody">
     <p><a target="_blank" rel="noopener" href="https://aws.github.io/chalice/">AWS Chalice</a> is yet another Python serverless framework, like <a target="_blank" rel="noopener" href="https://github.com/zappa/Zappa">Zappa</a> and the <a href="serverless.com">Serverless Framework</a> (what a confusing name).</p>
-<p>What makes Chalice special is that it has <a target="_blank" rel="noopener" href="https://aws.github.io/chalice/topics/tf">Terraform Support</a>, meaning that it is able to translate all its infrastructure to Terraform code, ready to be applied to AWS. This provides all the benefits of the Serverless Framework, like configure your Lambda triggers and setup API Gateway, without fragmenting your infrastructure in CloudFormation and Terraform.</p>
+<p>What makes Chalice special is the fact that it has <a target="_blank" rel="noopener" href="https://aws.github.io/chalice/topics/tf">Terraform Support</a><span id="more"></span>, meaning that it is able to translate all of its infrastructure to Terraform code, ready to be applied to AWS. This provides all the benefits of the Serverless Framework, like configure your Lambda triggers and setup API Gateway, without fragmenting your infrastructure in CloudFormation and Terraform.</p>
 <p>Having just one Infrastructure-as-Code tool in your project provides simplicity, more control over your application, and being able to reference serverless values directly in your Terraform without having to use a middleware data storage, like SSM.</p>
+<p>Chalice also handles event subscription and HTTP routing elegantly using decorators built-in on the code, instead of unnecessarily verbose YAML files.</p>
 <h2 id="How-to"><a href="#How-to" class="headerlink" title="How-to"></a>How-to</h2><p>Let’s start by creating a sample Chalice project:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create a virtualenv</span></span><br><span class="line">pyenv virtualenv chalice-tf</span><br><span class="line">pyenv activate chalice-tf</span><br><span class="line"></span><br><span class="line"><span class="comment"># install chalice</span></span><br><span class="line">pip install chalice</span><br><span class="line"></span><br><span class="line"><span class="comment"># set up a new chalice project</span></span><br><span class="line">chalice new-project chalice-tf</span><br><span class="line"><span class="built_in">cd</span> chalice-tf</span><br></pre></td></tr></table></figure>
 
@@ -181,7 +181,9 @@
 <p>Apply the new terraform code:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">terraform apply</span><br><span class="line">  ... (omit plan output)</span><br><span class="line">Plan: 8 to add, 3 to change, 1 to destroy.</span><br><span class="line"></span><br><span class="line">Changes to Outputs:</span><br><span class="line">  ~ EndpointURL = <span class="string">&quot;https://ht0npswgm8.execute-api.us-east-1.amazonaws.com/api&quot;</span> -&gt; (known after apply)</span><br><span class="line">  + queue_url   = (known after apply)</span><br><span class="line">  + topic_arn   = (known after apply)</span><br><span class="line"></span><br><span class="line">  ... (omit apply output)</span><br><span class="line"></span><br><span class="line">Apply complete! Resources: 8 added, 2 changed, 1 destroyed.</span><br><span class="line"></span><br><span class="line">Outputs:</span><br><span class="line"></span><br><span class="line">EndpointURL = <span class="string">&quot;https://ht0npswgm8.execute-api.us-east-1.amazonaws.com/api&quot;</span></span><br><span class="line">RestAPIId = <span class="string">&quot;ht0npswgm8&quot;</span></span><br><span class="line">queue_url = <span class="string">&quot;https://sqs.us-east-1.amazonaws.com/123456789123/chalice-tf-queue&quot;</span></span><br><span class="line">topic_arn = <span class="string">&quot;arn:aws:sns:us-east-1:123456789123:chalice-tf-topic&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>With this, we’ve just created two new lambda functions, with SNS and SQS triggers.<br>Now publish messages to your newly created topic and queue:</p>
+<p>With this, we’ve just created two new lambda functions, with SNS and SQS triggers.</p>
+<p>You can read more about Lambda Event Sources supported by Chalice here: <a target="_blank" rel="noopener" href="https://aws.github.io/chalice/topics/events.html">https://aws.github.io/chalice/topics/events.html</a></p>
+<p>Now publish messages to your newly created topic and queue:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aws sns publish --topic-arn arn:aws:sns:us-east-1:123456789123:chalice-tf-topic --message <span class="string">&quot;Hello from SNS!&quot;</span></span><br><span class="line">aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/123456789123/chalice-test-queue --message-body <span class="string">&quot;Hello from SQS&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>Check the CloudWatch logs of your functions using Chalice itself:</p>
@@ -202,7 +204,7 @@
 <p>As you can see, we are using Terraform syntax, since these keys as passed as literals to <code>chalice.tf.json</code> during packaging.</p>
 <p>In this example, we are setting a Security group and Subnet to all of our functions. These IDs are retrieved using Terraform, without the need of a middleware data storage, like SSM.</p>
 <p>More info here: <a target="_blank" rel="noopener" href="https://github.com/aws/chalice/issues/1533">https://github.com/aws/chalice/issues/1533</a></p>
-<p>You could also set here the <code>iam_role_arn</code> of a pre-existing IAM role, instead of letting Chalice generating one for you. This is a good approach for production environments.<br>See <a target="_blank" rel="noopener" href="https://aws.github.io/chalice/topics/configfile.html#iam-roles-and-policies">https://aws.github.io/chalice/topics/configfile.html#iam-roles-and-policies</a> for a practical example.</p>
+<p>You could also set here the <code>iam_role_arn</code> of a pre-existing IAM role, instead of letting Chalice generate one for you. This is a good approach for production environments.<br>See <a target="_blank" rel="noopener" href="https://aws.github.io/chalice/topics/configfile.html#iam-roles-and-policies">https://aws.github.io/chalice/topics/configfile.html#iam-roles-and-policies</a> for a practical example.</p>
 <h2 id="Fixing-the-duplicated-provider-error"><a href="#Fixing-the-duplicated-provider-error" class="headerlink" title="Fixing the duplicated provider error"></a>Fixing the duplicated provider error</h2><p>If you try to add your own AWS Terraform provider, you will run into the following error:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">terraform init</span><br><span class="line">╷</span><br><span class="line">│ Error: Duplicate provider configuration</span><br><span class="line">│</span><br><span class="line">│   on providers.tf line 9:</span><br><span class="line">│    9: provider &quot;aws&quot; &#123;</span><br><span class="line">│</span><br><span class="line">│ A default (non-aliased) provider configuration for &quot;aws&quot; was already given at chalice.tf.json:122,12-13. If multiple configurations are required, set the &quot;alias&quot; argument for alternative configurations.</span><br></pre></td></tr></table></figure>
 
@@ -262,7 +264,7 @@
 <p>See the logs of the local functions:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">chalice-local logs --stage <span class="built_in">local</span> --name handle_sns_message</span><br><span class="line"></span><br><span class="line">2021-09-06 20:09:48.453000 57bc1a START RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb Version: <span class="variable">$LATEST</span></span><br><span class="line">2021-09-06 20:09:48.457000 57bc1a</span><br><span class="line">2021-09-06 20:09:48.461000 57bc1a Received message with subject: None, message: <span class="built_in">local</span> SNS</span><br><span class="line">2021-09-06 20:09:48.469000 57bc1a END RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb</span><br><span class="line">2021-09-06 20:09:48.473000 57bc1a</span><br><span class="line">2021-09-06 20:09:48.481000 57bc1a REPORT RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb	Init Duration: 923.26 ms	Duration: 4.44 ms	Billed Duration: 5 ms	Memory Size: 1536 MB	Max Memory Used: 46 MB</span><br><span class="line">2021-09-06 20:09:48.485000 57bc1a</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">chalice-local logs --stage <span class="built_in">local</span> --name handle_sqs_message</span><br><span class="line"></span><br><span class="line">2021-09-06 20:10:02.453000 4c64e0 START RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb Version: <span class="variable">$LATEST</span></span><br><span class="line">2021-09-06 20:10:02.457000 4c64e0</span><br><span class="line">2021-09-06 20:10:02.461000 4c64e0 Received message with contents: <span class="built_in">local</span> SQS</span><br><span class="line">2021-09-06 20:10:02.469000 4c64e0 END RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb</span><br><span class="line">2021-09-06 20:10:02.473000 4c64e0</span><br><span class="line">2021-09-06 20:10:02.481000 4c64e0 REPORT RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb	Init Duration: 923.26 ms	Duration: 5.14 ms	Billed Duration: 6 ms	Memory Size: 1536 MB	Max Memory Used: 46 MB</span><br><span class="line">2021-09-06 20:10:02.485000 4c64e0</span><br></pre></td></tr></table></figure>
 
-<h2 id="Handle-bigger-codebases"><a href="#Handle-bigger-codebases" class="headerlink" title="Handle bigger codebases"></a>Handle bigger codebases</h2><p>Chalice has the concept of blueprints, similar to <a target="_blank" rel="noopener" href="https://exploreflask.com/en/latest/blueprints.html">Flask’s blueprints</a>. It is a handy way of organizing bigger projects with multiple files and namespaces.</p>
+<h2 id="Handle-bigger-codebases-using-blueprints"><a href="#Handle-bigger-codebases-using-blueprints" class="headerlink" title="Handle bigger codebases using blueprints"></a>Handle bigger codebases using blueprints</h2><p>Chalice has the concept of blueprints, similar to <a target="_blank" rel="noopener" href="https://exploreflask.com/en/latest/blueprints.html">Flask’s blueprints</a>. It is a handy way of organizing more complex projects with multiple files and namespaces.</p>
 <p>Read more about blueprints here <a target="_blank" rel="noopener" href="https://aws.github.io/chalice/topics/blueprints.html">https://aws.github.io/chalice/topics/blueprints.html</a></p>
 <p>Keep in mind that Chalice has the requirement of including custom files inside the <code>chalicelib</code> folder. More info here: <a target="_blank" rel="noopener" href="https://aws.github.io/chalice/topics/packaging">https://aws.github.io/chalice/topics/packaging</a></p>
 <p>With this knowledge, let’s expand our project using blueprints:</p>
@@ -275,12 +277,17 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> chalice <span class="keyword">import</span> Blueprint</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">extra_events = Blueprint(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@extra_events.on_sns_message(<span class="params">topic=<span class="string">&#x27;chalice-tf-topic&#x27;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_sns_message_blueprint</span>(<span class="params">event</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Received message with subject: <span class="subst">&#123;event.subject&#125;</span>, message: <span class="subst">&#123;event.message&#125;</span> from blueprint&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>Lastly, let’s register these blueprints on <code>app.py</code>:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> chalicelib.blueprints <span class="keyword">import</span> extra_events, extra_routes </span><br><span class="line"></span><br><span class="line">app.register_blueprint(extra_events)</span><br><span class="line">app.register_blueprint(extra_routes)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> chalicelib.blueprints <span class="keyword">import</span> extra_events, extra_routes</span><br><span class="line"></span><br><span class="line">app.register_blueprint(extra_events)</span><br><span class="line">app.register_blueprint(extra_routes)</span><br></pre></td></tr></table></figure>
 
-<!--
-## Cookiecutter template
-You can find my cookiecutter at ... that includes Datadog, AWS Lambda Powertools
--->
+
+
+
+<h2 id="Should-you-use-Chalice-for-your-next-project"><a href="#Should-you-use-Chalice-for-your-next-project" class="headerlink" title="Should you use Chalice for your next project?"></a>Should you use Chalice for your next project?</h2><p>After that deep dive on Chalice, let’s actually consider if you should use it the next time you have a start-up idea or you get a loose enough Jira story.</p>
+<p>Chalice is not the most popular serverless frameworks around, that’s a given. When people think about serverless as an infrastructure concept, they’ll most likely think about the Serverless Framework as well. Although Chalice can be consider a niche tool, it is backed up by AWS, and using robust tooling like the <a target="_blank" rel="noopener" href="https://aws.amazon.com/cdk/">AWS CDK</a>. It is also implementing declarative infrastructure, similar to Terraform, making it very clean and maintainable. </p>
+<p><a target="_blank" rel="noopener" href="https://www.python.org/dev/peps/pep-0020/">The Zen of Python</a> said it best: Simple is better than complex. Chalice has less moving parts compared to the Serverless Framework, which runs on Node.js (a bloated and unreliable platform in my opinion) and depends on plugins, often unmaintained. The Serverless Framework also has a key disadvantage, being that in order to support multiple runtimes and languages, it has to implement convoluted config files for generic scenarios that are a nightmare to maintain and scale. Chalice is written on pure Python and focused on a concrete use case, making it less prone to break, easier to maintain and less scary to update.</p>
+<p>People familiar with Flask or FastAPI should find Chalice easy to work with, as it follows the well established pattern across Python microframeworks of using decorators to define routes. We also saw that local development is possible and not that terrible.</p>
+<p>Sadly, Chalice is limited to Python projects, so if you are planning to write your next project on Go or JavaScript, look somewhere else. Another possible deal breaker for you is that Chalice is exclusive to AWS, without support for Azure or GCP.</p>
+<p>If you are thinking about integrating Terraform with your next Python serverless project, with a simple and scalable codebase, you should consider using Chalice.</p>
 
   </div>
 </article>
@@ -297,29 +304,28 @@ You can find my cookiecutter at ... that includes Datadog, AWS Lambda Powertools
           <li><a href="/">Home</a></li>
          
           <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
         
       </ul>
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to"><span class="toc-number">1.</span> <span class="toc-text">How-to</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Add-your-own-Terraform-code"><span class="toc-number">2.</span> <span class="toc-text">Add your own Terraform code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Referencing-Terraform-values-inside-Chalice"><span class="toc-number">3.</span> <span class="toc-text">Referencing Terraform values inside Chalice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fixing-the-duplicated-provider-error"><span class="toc-number">4.</span> <span class="toc-text">Fixing the duplicated provider error</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Local-development-with-LocalStack"><span class="toc-number">5.</span> <span class="toc-text">Local development with LocalStack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handle-bigger-codebases"><span class="toc-number">6.</span> <span class="toc-text">Handle bigger codebases</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to"><span class="toc-number">1.</span> <span class="toc-text">How-to</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Add-your-own-Terraform-code"><span class="toc-number">2.</span> <span class="toc-text">Add your own Terraform code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Referencing-Terraform-values-inside-Chalice"><span class="toc-number">3.</span> <span class="toc-text">Referencing Terraform values inside Chalice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fixing-the-duplicated-provider-error"><span class="toc-number">4.</span> <span class="toc-text">Fixing the duplicated provider error</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Local-development-with-LocalStack"><span class="toc-number">5.</span> <span class="toc-text">Local development with LocalStack</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Handle-bigger-codebases-using-blueprints"><span class="toc-number">6.</span> <span class="toc-text">Handle bigger codebases using blueprints</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Should-you-use-Chalice-for-your-next-project"><span class="toc-number">7.</span> <span class="toc-text">Should you use Chalice for your next project?</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&text=AWS Chalice + Terraform"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&is_video=false&description=AWS Chalice + Terraform"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=AWS Chalice + Terraform&body=Check out this article: https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&name=AWS Chalice + Terraform&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&t=AWS Chalice + Terraform"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&text=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&is_video=false&description=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense&body=Check out this article: https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&title=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&name=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense&description=&lt;p&gt;&lt;a href=&#34;https://aws.github.io/chalice/&#34;&gt;AWS Chalice&lt;/a&gt; is yet another Python serverless framework, like &lt;a href=&#34;https://github.com/zappa/Zappa&#34;&gt;Zappa&lt;/a&gt; and the &lt;a href=&#34;serverless.com&#34;&gt;Serverless Framework&lt;/a&gt; (what a confusing name).&lt;/p&gt;
+&lt;p&gt;What makes Chalice special is the fact that it has &lt;a href=&#34;https://aws.github.io/chalice/topics/tf&#34;&gt;Terraform Support&lt;/a&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/&t=AWS Chalice + Terraform: A Serverless Codebase That Makes Sense"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -350,8 +356,6 @@ You can find my cookiecutter at ... that includes Datadog, AWS Lambda Powertools
           <li><a href="/">Home</a></li>
          
           <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
         
       </ul>
     </nav>
