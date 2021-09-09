@@ -143,6 +143,8 @@ def handle_sqs_message(event):
         print(f"Received message with contents: {record.body}")
 ```
 
+Here we can see how Chalice handles event subscription. It is built-in on the code elegantly using decorators, instead of unnecessarily verbose YAML.
+
 Package the new Chalice code:
 
 ```sh
@@ -174,6 +176,9 @@ topic_arn = "arn:aws:sns:us-east-1:123456789123:chalice-tf-topic"
 ```
 
 With this, we've just created two new lambda functions, with SNS and SQS triggers.
+
+You can read more about Lambda Event Sources supported by Chalice here: https://aws.github.io/chalice/topics/events.html
+
 Now publish messages to your newly created topic and queue:
 
 ```sh
