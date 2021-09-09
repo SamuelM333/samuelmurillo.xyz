@@ -451,7 +451,7 @@ chalice-local logs --stage local --name handle_sqs_message
 
 ## Handle bigger codebases using blueprints
 
-Chalice has the concept of blueprints, similar to [Flask's blueprints](https://exploreflask.com/en/latest/blueprints.html). It is a handy way of organizing bigger projects with multiple files and namespaces.
+Chalice has the concept of blueprints, similar to [Flask's blueprints](https://exploreflask.com/en/latest/blueprints.html). It is a handy way of organizing more complex projects with multiple files and namespaces.
 
 Read more about blueprints here https://aws.github.io/chalice/topics/blueprints.html
 
