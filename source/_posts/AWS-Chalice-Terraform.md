@@ -1,5 +1,5 @@
 ---
-title: AWS Chalice + Terraform
+title: "AWS Chalice + Terraform: A serverless codebase that makes sense"
 date: 2021-07-27 08:33:25
 tags:
   - aws
