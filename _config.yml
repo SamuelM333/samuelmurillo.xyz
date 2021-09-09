@@ -109,7 +109,7 @@ theme_config:
   nav:
     home: /
     about: /about/
-    articles: /archives/
+    # articles: /archives/
 
   post:
     show_updated: true
