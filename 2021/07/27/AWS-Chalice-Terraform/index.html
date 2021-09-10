@@ -14,14 +14,14 @@
 <meta property="og:description" content="AWS Chalice is yet another Python serverless framework, like Zappa and the Serverless Framework (what a confusing name). What makes Chalice special is the fact that it has Terraform Support">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-07-27T11:33:25.000Z">
-<meta property="article:modified_time" content="2021-09-09T03:08:40.819Z">
+<meta property="article:modified_time" content="2021-09-10T00:06:37.224Z">
 <meta property="article:author" content="Samuel Murillo">
 <meta property="article:tag" content="aws">
 <meta property="article:tag" content="lambda">
 <meta property="article:tag" content="serverless">
 <meta property="article:tag" content="python">
-<meta property="article:tag" content="terraform">
 <meta property="article:tag" content="chalice">
+<meta property="article:tag" content="terraform">
 <meta name="twitter:card" content="summary">
     
     
@@ -118,7 +118,7 @@
       
         <time datetime="2021-07-27T11:33:25.000Z" itemprop="datePublished">2021-07-27</time>
         
-        (Updated: <time datetime="2021-09-09T03:08:40.819Z" itemprop="dateModified">2021-09-09</time>)
+        (Updated: <time datetime="2021-09-10T00:06:37.224Z" itemprop="dateModified">2021-09-09</time>)
         
       
     </div>
@@ -141,7 +141,7 @@
     <p><a target="_blank" rel="noopener" href="https://aws.github.io/chalice/">AWS Chalice</a> is yet another Python serverless framework, like <a target="_blank" rel="noopener" href="https://github.com/zappa/Zappa">Zappa</a> and the <a href="serverless.com">Serverless Framework</a> (what a confusing name).</p>
 <p>What makes Chalice special is the fact that it has <a target="_blank" rel="noopener" href="https://aws.github.io/chalice/topics/tf">Terraform Support</a><span id="more"></span>, meaning that it is able to translate all of its infrastructure to Terraform code, ready to be applied to AWS. This provides all the benefits of the Serverless Framework, like configure your Lambda triggers and setup API Gateway, without fragmenting your infrastructure in CloudFormation and Terraform.</p>
 <p>Having just one Infrastructure-as-Code tool in your project provides simplicity, more control over your application, and being able to reference serverless values directly in your Terraform without having to use a middleware data storage, like SSM.</p>
-<p>Chalice also handles event subscription and HTTP routing elegantly using decorators built-in on the code, instead of unnecessarily verbose YAML files.</p>
+<p>Chalice also handles event subscriptions and HTTP routing elegantly using Python decorators defined in the code itself, instead of unnecessarily verbose YAML files.</p>
 <h2 id="How-to"><a href="#How-to" class="headerlink" title="How-to"></a>How-to</h2><p>Let’s start by creating a sample Chalice project:</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create a virtualenv</span></span><br><span class="line">pyenv virtualenv chalice-tf</span><br><span class="line">pyenv activate chalice-tf</span><br><span class="line"></span><br><span class="line"><span class="comment"># install chalice</span></span><br><span class="line">pip install chalice</span><br><span class="line"></span><br><span class="line"><span class="comment"># set up a new chalice project</span></span><br><span class="line">chalice new-project chalice-tf</span><br><span class="line"><span class="built_in">cd</span> chalice-tf</span><br></pre></td></tr></table></figure>
 
@@ -278,9 +278,6 @@
 
 <p>Lastly, let’s register these blueprints on <code>app.py</code>:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> chalicelib.blueprints <span class="keyword">import</span> extra_events, extra_routes</span><br><span class="line"></span><br><span class="line">app.register_blueprint(extra_events)</span><br><span class="line">app.register_blueprint(extra_routes)</span><br></pre></td></tr></table></figure>
-
-
-
 
 <h2 id="Should-you-use-Chalice-for-your-next-project"><a href="#Should-you-use-Chalice-for-your-next-project" class="headerlink" title="Should you use Chalice for your next project?"></a>Should you use Chalice for your next project?</h2><p>After that deep dive on Chalice, let’s actually consider if you should use it the next time you have a start-up idea or you get a loose enough Jira story.</p>
 <p>Chalice is not the most popular serverless frameworks around, that’s a given. When people think about serverless as an infrastructure concept, they’ll most likely think about the Serverless Framework as well. Although Chalice can be consider a niche tool, it is backed up by AWS, and using robust tooling like the <a target="_blank" rel="noopener" href="https://aws.amazon.com/cdk/">AWS CDK</a>. It is also implementing declarative infrastructure, similar to Terraform, making it very clean and maintainable. </p>
