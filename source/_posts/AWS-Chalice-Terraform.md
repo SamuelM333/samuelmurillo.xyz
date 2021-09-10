@@ -501,9 +501,6 @@ app.register_blueprint(extra_events)
 app.register_blueprint(extra_routes)
 ```
 
-{# AWS Lambda Powertools #}
-{# Datadog #}
-
 ## Should you use Chalice for your next project?
 
 After that deep dive on Chalice, let's actually consider if you should use it the next time you have a start-up idea or you get a loose enough Jira story.
@@ -517,8 +514,3 @@ People familiar with Flask or FastAPI should find Chalice easy to work with, as 
 Sadly, Chalice is limited to Python projects, so if you are planning to write your next project on Go or JavaScript, look somewhere else. Another possible deal breaker for you is that Chalice is exclusive to AWS, without support for Azure or GCP.
 
 If you are thinking about integrating Terraform with your next Python serverless project, with a simple and scalable codebase, you should consider using Chalice.
-
-{#
-## Cookiecutter template
-You can find my cookiecutter at ... that includes Datadog, AWS Lambda Powertools
-#}
