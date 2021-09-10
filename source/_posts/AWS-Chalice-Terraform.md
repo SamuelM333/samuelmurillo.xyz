@@ -17,7 +17,7 @@ What makes Chalice special is the fact that it has [Terraform Support](https://a
 
 Having just one Infrastructure-as-Code tool in your project provides simplicity, more control over your application, and being able to reference serverless values directly in your Terraform without having to use a middleware data storage, like SSM.
 
-Chalice also handles event subscription and HTTP routing elegantly using decorators built-in on the code, instead of unnecessarily verbose YAML files.
+Chalice also handles event subscriptions and HTTP routing elegantly using Python decorators defined in the code itself, instead of unnecessarily verbose YAML files.
 
 ## How-to
 
