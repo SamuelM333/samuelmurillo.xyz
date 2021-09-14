@@ -1,5 +1,5 @@
 ---
-title: "AWS Chalice + Terraform Part 2: Local development"
+title: "AWS Chalice + Terraform Part 2: Local development with LocalStack"
 date: 2021-09-09 12:33:25
 tags:
   - aws
@@ -11,26 +11,19 @@ tags:
   - docker
 ---
 
-## Testing
+In part 1 we went through the basics of AWS Chalice and how to integrate it with Terraform. You can check that here:
 
-## Blueprints
-
-## AWS Lambda Powertools 
-
-## Datadog
-
-## CI/CD
-
-## Cookiecutter template
-You can find my cookiecutter at ... that includes Datadog, AWS Lambda Powertools
-
-## Local development with LocalStack
+{% post_link AWS-Chalice-Terraform %}
 
 So far we have deployed our infrastructure against the cloud. This could be a slow process during development, even more if debugging a pesky error.
 
 It is possible to deploy our infrastructure against [LocalStack](https://github.com/localstack/localstack), a project that aims to emulate AWS resources and API calls locally, using Docker as its backend.
 
-The LocalStack team also provide [chalice-local](https://github.com/localstack/chalice-local), a tool that will be useful for checking logs and invoking our functions.
+## How-to
+
+Follow https://github.com/localstack/localstack#running to get up and running with LocalStack.
+
+The LocalStack team provides [chalice-local](https://github.com/localstack/chalice-local), a tool that will be useful for checking logs and invoking our functions.
 
 One more tool that we are going to use is [awscli-local](https://github.com/localstack/awscli-local), which is simply the AWS CLI with some configuration to run against LocalStack, instead of actual AWS servers.
 
@@ -40,17 +33,15 @@ We can install all these tools using `pip`:
 pip install localstack chalice-local awscli-local
 ```
 
-Follow https://github.com/localstack/localstack#running to get up and running with LocalStack.
-
 These are the steps followed to run the sample app we have built so far locally:
 
-1. Configure and start LocalStack:
+### 1. Configure and start LocalStack:
 
 ```sh
-export SERVICES=sqs,sns,ssm,sts,logs,iam,apigateway,lambda,events,kms,ec2,cloudwatch,s3
+export SERVICES=sqs,sns,ssm,sts,logs,iam,apigateway,lambda,events,kms,ec2,cloudwatch,s3  # The list of services we want to enable in LocalStack
 localstack start
 ```
-2. Configure the AWS Terraform provider to point to LocalStack:
+### 2. Configure the AWS Terraform provider to point to LocalStack:
 
 ```terraform
 provider "aws" {
@@ -98,7 +89,7 @@ output "local_url" {
 More info here:
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack
 
-3. Add a local stage to the Chalice config file
+### 3. Add a local stage to the Chalice config file
 
 LocalStack isn't perfect. Sometimes their API fails to retrieve VPC data (among other errors). One way of getting around these errors is disabling VPC locally:
 
@@ -123,13 +114,13 @@ LocalStack isn't perfect. Sometimes their API fails to retrieve VPC data (among 
 
 Here we keep our Security group and Subnet configuration for all of our functions on all stages but local, where we manually disable them.
 
-4. Package the app with the local stage configuration
+### 4. Package the app with the local stage configuration
 
 ```sh
 chalice package --stage local --pkg-format terraform .
 ```
 
-5. Apply the Terraform code against LocalStack
+### 5. Apply the Terraform code against LocalStack
 
 ```sh
 # Refreshing against LocalStack can be unstable. We don't really need it here so we can disable it
@@ -138,14 +129,16 @@ terraform apply -refresh=false
 
 If everything goes right, you should have the same application you had in AWS up and running locally. You may have also noticed that applying against LocalStack is blazing fast compared to AWS.
 
-Let's test our functions:
+## Testing our local functions
+
+We can test our HTTP enabled function by hitting the local API Gateway url using `curl`:
 
 ```sh
 curl http://localhost:4566/restapis/ur5mwyfjy6/local/_user_request_/
 {"hello":"world"}
 ```
 
-Hit the local SNS and SQS server:
+To hit the local SNS and SQS server and trigger those functions, we will use `awslocal`: 
 
 ```sh
 awslocal sns publish --topic-arn arn:aws:sns:us-east-1:000000000000:chalice-tf-topic --message "local SNS"
@@ -164,8 +157,9 @@ chalice-local logs --stage local --name handle_sns_message
 2021-09-06 20:09:48.473000 57bc1a
 2021-09-06 20:09:48.481000 57bc1a REPORT RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb	Init Duration: 923.26 ms	Duration: 4.44 ms	Billed Duration: 5 ms	Memory Size: 1536 MB	Max Memory Used: 46 MB
 2021-09-06 20:09:48.485000 57bc1a
+```
 
-
+```sh
 chalice-local logs --stage local --name handle_sqs_message
 
 2021-09-06 20:10:02.453000 4c64e0 START RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb Version: $LATEST
@@ -176,4 +170,3 @@ chalice-local logs --stage local --name handle_sqs_message
 2021-09-06 20:10:02.481000 4c64e0 REPORT RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb	Init Duration: 923.26 ms	Duration: 5.14 ms	Billed Duration: 6 ms	Memory Size: 1536 MB	Max Memory Used: 46 MB
 2021-09-06 20:10:02.485000 4c64e0
 ```
-
