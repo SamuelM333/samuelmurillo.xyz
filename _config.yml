@@ -103,13 +103,17 @@ ignore:
 theme: cactus
 
 theme_config:
-  # tags_overview: true
+  tags_overview: true
+  posts_overview:
+    show_all_posts: false
+    post_count: 10
+
   # page_width: 55
 
   nav:
     home: /
     about: /about/
-    # articles: /archives/
+    articles: /archives/
 
   post:
     show_updated: true
