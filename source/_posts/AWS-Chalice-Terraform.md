@@ -13,7 +13,7 @@ tags:
 
 [AWS Chalice](https://aws.github.io/chalice/) is yet another Python serverless framework, like [Zappa](https://github.com/zappa/Zappa) and the [Serverless Framework](serverless.com) (what a confusing name).
 
-What makes Chalice special is the fact that it has [Terraform Support](https://aws.github.io/chalice/topics/tf)<!-- more -->, meaning that it is able to translate all of its infrastructure to Terraform code, ready to be applied to AWS. This provides all the benefits of the Serverless Framework, like configure your Lambda triggers and setup API Gateway, without fragmenting your infrastructure in CloudFormation and Terraform.
+What makes Chalice special is the fact that it has [Terraform Support](https://aws.github.io/chalice/topics/tf)<!-- more -->, meaning that it is able to translate all of its infrastructure to Terraform code, ready to be applied to AWS. This provides all the benefits of the Serverless Framework, like configure your Lambda triggers and set up API Gateway, without fragmenting your infrastructure in CloudFormation and Terraform.
 
 Having just one Infrastructure-as-Code tool in your project provides simplicity, more control over your application, and being able to reference serverless values directly in your Terraform without having to use a middleware data storage, like SSM.
 
