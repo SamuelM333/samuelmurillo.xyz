@@ -46,6 +46,3 @@ You can also check how a pure Terraform implementation of a serverless stack loo
 
 https://knative.dev/
 https://fission.io/
-
-## Is serverless even for you?
-
