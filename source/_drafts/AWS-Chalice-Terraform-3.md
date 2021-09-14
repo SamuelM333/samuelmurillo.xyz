@@ -10,7 +10,8 @@ tags:
   - datadog
 ---
 
-## Testing
+{% post_link AWS-Chalice-Terraform %}
+{% post_link AWS-Chalice-Terraform-2 %}
 
 ## Handle bigger codebases using blueprints
 
@@ -67,6 +68,8 @@ app.register_blueprint(extra_routes)
 ## AWS Lambda Powertools 
 
 ## Datadog
+
+## Testing
 
 ## CI/CD
 
