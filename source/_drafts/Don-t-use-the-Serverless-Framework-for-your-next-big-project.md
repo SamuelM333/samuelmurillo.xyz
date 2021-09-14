@@ -6,8 +6,7 @@ tags:
   - rant
   - serverless
 ---
-
-For the past 2 years I've work on a company that uses the [Serverless Framework](serverless.com) running on [AWS Lambda](https://aws.amazon.com/lambda/), integrated with [SQS](https://aws.amazon.com/sqs/), [SNS](https://aws.amazon.com/sns), [Kinesis](https://aws.amazon.com/kinesis) and [DynamoDB](https://aws.amazon.com/dynamodb), both as a developer and as an SRE.
+For the past few years as a developer and as an SRE, I have worked with the [Serverless Framework](serverless.com) running on [AWS Lambda](https://aws.amazon.com/lambda/), integrated with [SQS](https://aws.amazon.com/sqs/), [SNS](https://aws.amazon.com/sns), [Kinesis](https://aws.amazon.com/kinesis) and [DynamoDB](https://aws.amazon.com/dynamodb).
 
 With this experience, I have a few things to say about the Serverless Framework and why you shouldn't use it for big projects.
 
