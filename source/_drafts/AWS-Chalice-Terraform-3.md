@@ -10,8 +10,16 @@ tags:
   - datadog
 ---
 
+This is the third part of the Chalice + Terraform series. You can check part 1 and 2 here:
+
 {% post_link AWS-Chalice-Terraform %}
 {% post_link AWS-Chalice-Terraform-2 %}
+
+This time we will focus on getting production ready. That's a very broad objective, so we will narrow it down to:
+- Clean and maintainable codebase
+- Observability
+- Testing
+- Continuos integration and delivery (CI/CD)
 
 ## Handle bigger codebases using blueprints
 
@@ -35,8 +43,8 @@ Now, let's add HTTP events to `chalicelib/api.py`
 ```python
 from chalice import Blueprint
 
-
 extra_routes = Blueprint(__name__)
+
 
 @extra_routes.route('/foo')
 def foo():
@@ -48,7 +56,6 @@ Add some subscription events to `chalicelib/events.py`
 ```python
 from chalice import Blueprint
 
-
 extra_events = Blueprint(__name__)
 
 @extra_events.on_sns_message(topic='chalice-tf-topic')
@@ -56,14 +63,31 @@ def handle_sns_message_blueprint(event):
     print(f"Received message with subject: {event.subject}, message: {event.message} from blueprint")
 ```
 
-Lastly, let's register these blueprints on `app.py`:
+To easily register all blueprints, let's create a set with all of them inside `__init__.py`
 
 ```python
-from chalicelib.blueprints import extra_events, extra_routes
+from chalicelib.api import extra_routes
+from chalicelib.events import extra_events
 
-app.register_blueprint(extra_events)
-app.register_blueprint(extra_routes)
+BLUEPRINTS = (
+    extra_routes,
+    extra_events,
+)
 ```
+
+Lastly, let's elegantly register our blueprints on `app.py`:
+
+```python
+from chalice import Chalice
+
+from chalicelib import BLUEPRINTS
+
+app = Chalice(app_name='chalice-tf')
+
+for blueprint in BLUEPRINTS: app.register_blueprint(blueprint)
+```
+
+Read more about blueprint registration here: https://aws.github.io/chalice/topics/blueprints.html#blueprint-registration
 
 ## AWS Lambda Powertools 
 
