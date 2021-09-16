@@ -147,6 +147,16 @@ terraform apply -refresh=false
 
 If everything goes right, you should have the same application you had in AWS up and running locally. You may have also noticed that applying against LocalStack is blazing fast compared to AWS.
 
+During development iteration, you can use the following script to package, fix and apply your code quickly against LocalStack:
+
+```sh
+chalice package --pkg-format terraform . --stage local
+cat <<< $(jq 'del(.provider.aws)' chalice.tf.json) > chalice.tf.json
+terraform apply -auto-approve -refresh=false
+```
+
+Nothing that we haven't seen before, but pretty useful to have on a `apply.sh` script.
+
 ## Testing our local functions
 
 We can test our HTTP enabled function by hitting the local API Gateway url using `curl`:
