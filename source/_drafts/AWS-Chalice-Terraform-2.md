@@ -1,6 +1,6 @@
 ---
 title: "AWS Chalice + Terraform Part 2: Local development with LocalStack"
-date: 2021-09-09 12:33:25
+date: 2021-09-15 22:27:25
 tags:
   - aws
   - chalice
