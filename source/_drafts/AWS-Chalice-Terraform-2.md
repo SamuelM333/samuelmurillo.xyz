@@ -37,11 +37,18 @@ These are the steps followed to run the sample app we have built so far locally:
 
 ### 1. Configure and start LocalStack:
 
+We can start all the Docker containers that LocalStack provides with the following command:
+
 ```sh
-export SERVICES=sqs,sns,ssm,sts,logs,iam,apigateway,lambda,events,kms,ec2,cloudwatch,s3  # The list of services we want to enable in LocalStack
+# The list of services we want to enable in LocalStack
+export SERVICES=sqs,sns,ssm,sts,logs,iam,apigateway,lambda,events,kms,ec2,cloudwatch,s3
 localstack start
 ```
+Keep in mind that once we stop the server, **all infrastructure will be lost**.
+
 ### 2. Configure the AWS Terraform provider to point to LocalStack:
+
+We need to tell Terraform that we don't want to hit the default AWS endpoints, but our own. We also need to mock authentication and disable some checks to speed up the process. We can do this by modifying the AWS provider: 
 
 ```terraform
 provider "aws" {
@@ -79,7 +86,14 @@ provider "aws" {
     sts              = "http://localhost:4566"
   }
 }
+```
 
+You can read more about the AWS Terraform provider endpoint customization here:
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack
+
+Lastly we can add an output with the format LocalStack follows for API Gateway:
+
+```terraform
 output "local_url" {
   value       = "http://localhost:4566/restapis/${aws_api_gateway_rest_api.rest_api.id}/local/_user_request_/"
   description = "API Gateway URL for LocalStack"
@@ -87,7 +101,7 @@ output "local_url" {
 ```
 
 More info here:
-https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack
+https://github.com/localstack/localstack#invoking-api-gateway
 
 ### 3. Add a local stage to the Chalice config file
 
@@ -116,11 +130,15 @@ Here we keep our Security group and Subnet configuration for all of our function
 
 ### 4. Package the app with the local stage configuration
 
+Here we are packaging the app as before, but passing the `--stage` flag to specify we want the local configuration:
+
 ```sh
 chalice package --stage local --pkg-format terraform .
 ```
 
 ### 5. Apply the Terraform code against LocalStack
+
+We are ready to apply the Terraform code and create our infrastructure locally:
 
 ```sh
 # Refreshing against LocalStack can be unstable. We don't really need it here so we can disable it
@@ -170,3 +188,9 @@ chalice-local logs --stage local --name handle_sqs_message
 2021-09-06 20:10:02.481000 4c64e0 REPORT RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb	Init Duration: 923.26 ms	Duration: 5.14 ms	Billed Duration: 6 ms	Memory Size: 1536 MB	Max Memory Used: 46 MB
 2021-09-06 20:10:02.485000 4c64e0
 ```
+
+## Closing thoughts
+
+Hopefully with this local setup you can increase your development speed and comfort. Up next, let's get ready for production release. You can check the third part of this series here:
+
+{% post_link AWS-Chalice-Terraform-3 %}
