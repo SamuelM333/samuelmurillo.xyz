@@ -17,6 +17,7 @@ This is the third part of the Chalice + Terraform series. You can check part 1 a
 
 This time we will focus on getting production ready. That's a very broad objective, so we will narrow it down to:
 - Clean and maintainable codebase
+- Secrets management
 - Observability
 - Testing
 - Continuos integration and delivery (CI/CD)
@@ -89,7 +90,37 @@ for blueprint in BLUEPRINTS: app.register_blueprint(blueprint)
 
 Read more about blueprint registration here: https://aws.github.io/chalice/topics/blueprints.html#blueprint-registration
 
-## AWS Lambda Powertools 
+## AWS Lambda Powertools
+
+### Logging and tracing
+
+https://awslabs.github.io/aws-lambda-powertools-python/latest/#features
+
+```python
+from aws_lambda_powertools import Logger
+from aws_lambda_powertools import Tracer
+from chalice import Chalice, ConvertToMiddleware
+
+app = Chalice(app_name='chalice-test')
+
+# AWS powertools
+# https://aws.github.io/chalice/topics/middleware.html?highlight=handler#integrating-with-aws-lambda-powertools
+# https://aws.amazon.com/blogs/developer/following-serverless-best-practices-with-aws-chalice-and-lambda-powertools/
+logger = Logger(service=app.app_name)
+tracer = Tracer(service=app.app_name)
+
+app.register_middleware(ConvertToMiddleware(logger.inject_lambda_context))
+app.register_middleware(ConvertToMiddleware(tracer.capture_lambda_handler(capture_response=False)))
+
+@app.middleware('http')
+def inject_route_info(event, get_response):
+    logger.structure_logs(append=True, request_path=event.path)
+    return get_response(event)
+```
+
+### See also
+
+- [Parsers](https://awslabs.github.io/aws-lambda-powertools-python/latest/utilities/parser/)
 
 ## Datadog
 
