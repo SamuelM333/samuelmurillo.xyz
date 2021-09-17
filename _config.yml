@@ -6,7 +6,12 @@
 title: Samuel Murillo
 subtitle: ''
 description: 'Computer Engineer/Site Reliability Engineer'
-keywords: 'sre'
+keywords:
+  - aws
+  - lambda
+  - python
+  - serverless
+  - sre
 author: Samuel Murillo
 language: en
 timezone: 'America/Argentina/Buenos_Aires'
