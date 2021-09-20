@@ -4,7 +4,7 @@
 
 # Site
 title: Samuel Murillo
-subtitle: ''
+subtitle:
 description: 'Computer Engineer/Site Reliability Engineer'
 keywords:
   - aws
@@ -106,8 +106,8 @@ sitemap:
   path: sitemap.xml
   template: ./sitemap_template.xml
   rel: false
-  tags: true
-  categories: true
+  tags: false
+  categories: false
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
