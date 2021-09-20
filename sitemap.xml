@@ -4,7 +4,7 @@
   <url>
     <loc>https://samuelmurillo.xyz/2021/07/27/AWS-Chalice-Terraform/</loc>
     
-    <lastmod>2021-09-17</lastmod>
+    <lastmod>2021-09-20</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -13,7 +13,7 @@
   <url>
     <loc>https://samuelmurillo.xyz/about/index.html</loc>
     
-    <lastmod>2021-09-17</lastmod>
+    <lastmod>2021-09-20</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -22,53 +22,11 @@
 
   <url>
     <loc>https://samuelmurillo.xyz/</loc>
-    <lastmod>2021-09-17</lastmod>
+    <lastmod>2021-09-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
-  
-  <url>
-    <loc>https://samuelmurillo.xyz/tags/aws/</loc>
-    <lastmod>2021-09-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://samuelmurillo.xyz/tags/chalice/</loc>
-    <lastmod>2021-09-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://samuelmurillo.xyz/tags/lambda/</loc>
-    <lastmod>2021-09-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://samuelmurillo.xyz/tags/python/</loc>
-    <lastmod>2021-09-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://samuelmurillo.xyz/tags/serverless/</loc>
-    <lastmod>2021-09-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://samuelmurillo.xyz/tags/terraform/</loc>
-    <lastmod>2021-09-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
   
 
   
