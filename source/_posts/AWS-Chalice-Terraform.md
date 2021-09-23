@@ -1,7 +1,7 @@
 ---
 title: "AWS Chalice + Terraform: A serverless codebase that makes sense"
 date: 2021-07-27 08:33:25
-description: AWS Chalice is yet another Python serverless framework, like the Serverless Framework. What makes Chalice special is the fact that it has Terraform Support.
+description: Chalice is yet another Python serverless framework, like Zappa and the Serverless Framework. What makes Chalice special is the fact that it has Terraform Support
 tags:
   - aws
   - chalice
