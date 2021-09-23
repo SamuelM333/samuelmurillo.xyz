@@ -197,7 +197,7 @@ See https://github.com/aws/chalice/issues/1665
 
 We can use the AWS CLI to get our CloudWatch logs:
 
-```sh
+```
 LOG_GROUP_NAME="/aws/lambda/chalice-tf-dev-handle_sns_message"
 LOG_STREAM_NAME=$(aws logs describe-log-streams --log-group-name "${LOG_GROUP_NAME}" | jq -r '.logStreams | sort_by(.creationTime) | .[-1].logStreamName')
 aws logs get-log-events --log-group-name "${LOG_GROUP_NAME}" --log-stream-name "${LOG_STREAM_NAME}" | jq -r '.events[] | select(has("message")) | .message'
@@ -211,7 +211,7 @@ END RequestId: 0fea9a54-5d59-4e95-9422-b315e0393a51
 REPORT RequestId: 0fea9a54-5d59-4e95-9422-b315e0393a51	Duration: 1.18 ms	Billed Duration: 2 ms	Memory Size: 128 MB	Max Memory Used: 54 MB	Init Duration: 146.71 message
 ```
 
-```sh
+```
 LOG_GROUP_NAME="/aws/lambda/chalice-tf-dev-handle_sqs_message"
 LOG_STREAM_NAME=$(aws logs describe-log-streams --log-group-name "${LOG_GROUP_NAME}" | jq -r '.logStreams | sort_by(.creationTime) | .[-1].logStreamName')
 aws logs get-log-events --log-group-name "${LOG_GROUP_NAME}" --log-stream-name "${LOG_STREAM_NAME}" | jq -r '.events[] | select(has("message")) | .message'
