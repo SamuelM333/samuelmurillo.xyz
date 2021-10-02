@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Learn how to work on your Chalice app locally using LocalStack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWS Chalice + Terraform Part 2: Local Development With LocalStack">
+<meta property="og:url" content="https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/index.html">
+<meta property="og:site_name" content="Samuel Murillo - SRE">
+<meta property="og:description" content="Learn how to work on your Chalice app locally using LocalStack">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-10-02T13:40:48.000Z">
+<meta property="article:modified_time" content="2021-10-02T13:40:57.749Z">
+<meta property="article:author" content="Samuel Murillo">
+<meta property="article:tag" content="aws">
+<meta property="article:tag" content="chalice">
+<meta property="article:tag" content="lambda">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="serverless">
+<meta property="article:tag" content="terraform">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="localstack">
+<meta property="article:tag" content="sns">
+<meta property="article:tag" content="sqs">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+      
+      
+    
+    <!-- title -->
+    <title>AWS Chalice + Terraform Part 2: Local Development With LocalStack</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post " href="/2021/07/27/AWS-Chalice-Terraform/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&text=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&title=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&is_video=false&description=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AWS Chalice + Terraform Part 2: Local Development With LocalStack&body=Check out this article: https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&title=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&title=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&title=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&title=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&name=AWS Chalice + Terraform Part 2: Local Development With LocalStack&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&t=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to"><span class="toc-number">1.</span> <span class="toc-text">How-to</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Configure-and-start-LocalStack"><span class="toc-number">1.1.</span> <span class="toc-text">1. Configure and start LocalStack:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Configure-the-AWS-Terraform-provider-to-point-to-LocalStack"><span class="toc-number">1.2.</span> <span class="toc-text">2. Configure the AWS Terraform provider to point to LocalStack:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Add-a-local-stage-to-the-Chalice-config-file"><span class="toc-number">1.3.</span> <span class="toc-text">3. Add a local stage to the Chalice config file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Package-the-app-with-the-local-stage-configuration"><span class="toc-number">1.4.</span> <span class="toc-text">4. Package the app with the local stage configuration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Apply-the-Terraform-code-against-LocalStack"><span class="toc-number">1.5.</span> <span class="toc-text">5. Apply the Terraform code against LocalStack</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running-our-local-functions"><span class="toc-number">2.</span> <span class="toc-text">Running our local functions</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        AWS Chalice + Terraform Part 2: Local Development With LocalStack
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Samuel Murillo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-10-02T13:40:48.000Z" itemprop="datePublished">2021-10-02</time>
+        
+        (Updated: <time datetime="2021-10-02T13:40:57.749Z" itemprop="dateModified">2021-10-02</time>)
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/AWS-Chalice-Terraform/">AWS Chalice + Terraform</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/aws/" rel="tag">aws</a>, <a class="tag-link-link" href="/tags/chalice/" rel="tag">chalice</a>, <a class="tag-link-link" href="/tags/docker/" rel="tag">docker</a>, <a class="tag-link-link" href="/tags/lambda/" rel="tag">lambda</a>, <a class="tag-link-link" href="/tags/localstack/" rel="tag">localstack</a>, <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-link-link" href="/tags/serverless/" rel="tag">serverless</a>, <a class="tag-link-link" href="/tags/sns/" rel="tag">sns</a>, <a class="tag-link-link" href="/tags/sqs/" rel="tag">sqs</a>, <a class="tag-link-link" href="/tags/terraform/" rel="tag">terraform</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>In part 1 we went through the basics of AWS Chalice and how to integrate it with Terraform. You can check that here:</p>
+<a href="/2021/07/27/AWS-Chalice-Terraform/" title="AWS Chalice + Terraform: A serverless codebase that makes sense">AWS Chalice + Terraform: A serverless codebase that makes sense</a>
+
+<p>So far we have deployed our infrastructure against the cloud. This could be a slow process during development, even more if debugging a pesky error.</p>
+<p>It is possible to deploy our infrastructure against <a target="_blank" rel="noopener" href="https://github.com/localstack/localstack">LocalStack</a>, a project that aims to emulate AWS resources and API calls locally, using Docker as its backend.</p>
+<h2 id="How-to"><a href="#How-to" class="headerlink" title="How-to"></a>How-to</h2><p>Follow <a target="_blank" rel="noopener" href="https://github.com/localstack/localstack#running">https://github.com/localstack/localstack#running</a> to get up and running with LocalStack. You require to have Docker installed.</p>
+<p>The LocalStack team provides <a target="_blank" rel="noopener" href="https://github.com/localstack/chalice-local">chalice-local</a>, a tool that will be useful for checking logs and invoking our functions.</p>
+<p>One more tool also provided by the LocalStack team that we are going to use is <a target="_blank" rel="noopener" href="https://github.com/localstack/awscli-local">awscli-local</a>, which is simply the AWS CLI with some configuration to run against LocalStack, instead of actual AWS servers.</p>
+<p>We can install all these tools using <code>pip</code>:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install localstack chalice-local awscli-local</span><br></pre></td></tr></table></figure>
+
+<p>These are the steps followed to run the sample app we have built so far locally:</p>
+<h3 id="1-Configure-and-start-LocalStack"><a href="#1-Configure-and-start-LocalStack" class="headerlink" title="1. Configure and start LocalStack:"></a>1. Configure and start LocalStack:</h3><p>We can start all the Docker containers that LocalStack provides with the following command:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The list of services we want to enable in LocalStack</span></span><br><span class="line"><span class="built_in">export</span> SERVICES=sqs,sns,ssm,sts,logs,iam,apigateway,lambda,events,kms,ec2,cloudwatch,s3</span><br><span class="line">localstack start</span><br></pre></td></tr></table></figure>
+<p>Keep in mind that once we stop the server, <strong>all infrastructure will be lost</strong>.</p>
+<h3 id="2-Configure-the-AWS-Terraform-provider-to-point-to-LocalStack"><a href="#2-Configure-the-AWS-Terraform-provider-to-point-to-LocalStack" class="headerlink" title="2. Configure the AWS Terraform provider to point to LocalStack:"></a>2. Configure the AWS Terraform provider to point to LocalStack:</h3><p>We need to tell Terraform that we don’t want to hit the default AWS endpoints, but our own instead. We also need to mock authentication and disable some checks to speed up the process. We can do this by modifying the AWS provider: </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">provider &quot;aws&quot; &#123;</span><br><span class="line">  access_key                  = &quot;mock_access_key&quot;</span><br><span class="line">  secret_key                  = &quot;mock_secret_key&quot;</span><br><span class="line">  region                      = &quot;us-east-1&quot;</span><br><span class="line">  s3_force_path_style         = true</span><br><span class="line">  skip_credentials_validation = true</span><br><span class="line">  skip_metadata_api_check     = true</span><br><span class="line">  skip_requesting_account_id  = true</span><br><span class="line">  insecure                    = true</span><br><span class="line"></span><br><span class="line">  endpoints &#123;</span><br><span class="line">    apigateway       = &quot;http://localhost:4566&quot;</span><br><span class="line">    cloudformation   = &quot;http://localhost:4566&quot;</span><br><span class="line">    cloudwatch       = &quot;http://localhost:4566&quot;</span><br><span class="line">    cloudwatchevents = &quot;http://localhost:4566&quot;</span><br><span class="line">    cloudwatchlogs   = &quot;http://localhost:4566&quot;</span><br><span class="line">    dynamodb         = &quot;http://localhost:4566&quot;</span><br><span class="line">    ec2              = &quot;http://localhost:4566&quot;</span><br><span class="line">    es               = &quot;http://localhost:4566&quot;</span><br><span class="line">    firehose         = &quot;http://localhost:4566&quot;</span><br><span class="line">    iam              = &quot;http://localhost:4566&quot;</span><br><span class="line">    kinesis          = &quot;http://localhost:4566&quot;</span><br><span class="line">    lambda           = &quot;http://localhost:4566&quot;</span><br><span class="line">    route53          = &quot;http://localhost:4566&quot;</span><br><span class="line">    redshift         = &quot;http://localhost:4566&quot;</span><br><span class="line">    s3               = &quot;http://localhost:4566&quot;</span><br><span class="line">    secretsmanager   = &quot;http://localhost:4566&quot;</span><br><span class="line">    ses              = &quot;http://localhost:4566&quot;</span><br><span class="line">    sns              = &quot;http://localhost:4566&quot;</span><br><span class="line">    sqs              = &quot;http://localhost:4566&quot;</span><br><span class="line">    ssm              = &quot;http://localhost:4566&quot;</span><br><span class="line">    stepfunctions    = &quot;http://localhost:4566&quot;</span><br><span class="line">    sts              = &quot;http://localhost:4566&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>You can read more about the AWS Terraform provider endpoint customization here:<br><a target="_blank" rel="noopener" href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack">https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack</a></p>
+<p>Lastly we can add an output with the format LocalStack follows for API Gateway:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">output &quot;local_url&quot; &#123;</span><br><span class="line">  value       = &quot;http://localhost:4566/restapis/$&#123;aws_api_gateway_rest_api.rest_api.id&#125;/local/_user_request_/&quot;</span><br><span class="line">  description = &quot;API Gateway URL for LocalStack&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>More info here:<br><a target="_blank" rel="noopener" href="https://github.com/localstack/localstack#invoking-api-gateway">https://github.com/localstack/localstack#invoking-api-gateway</a></p>
+<h3 id="3-Add-a-local-stage-to-the-Chalice-config-file"><a href="#3-Add-a-local-stage-to-the-Chalice-config-file" class="headerlink" title="3. Add a local stage to the Chalice config file"></a>3. Add a local stage to the Chalice config file</h3><p>LocalStack isn’t perfect. Sometimes their API fails to retrieve VPC data (among other errors). One way of getting around these errors is disabling VPC locally:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;version&quot;</span>: <span class="string">&quot;2.0&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;app_name&quot;</span>: <span class="string">&quot;chalice-tf&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;subnet_ids&quot;</span>: <span class="string">&quot;$&#123;data.aws_subnet_ids.public.ids&#125;&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;security_group_ids&quot;</span>: [<span class="string">&quot;$&#123;module.security_group_service.security_group_id&#125;&quot;</span>],</span><br><span class="line">  <span class="attr">&quot;stages&quot;</span>: &#123;</span><br><span class="line">    <span class="attr">&quot;local&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;api_gateway_stage&quot;</span>: <span class="string">&quot;local&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;subnet_ids&quot;</span>: [],</span><br><span class="line">      <span class="attr">&quot;security_group_ids&quot;</span>: [],</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;dev&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;api_gateway_stage&quot;</span>: <span class="string">&quot;dev&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Here we keep our Security group and Subnet configuration for all of our functions on all stages but local, where we manually disable them.</p>
+<h3 id="4-Package-the-app-with-the-local-stage-configuration"><a href="#4-Package-the-app-with-the-local-stage-configuration" class="headerlink" title="4. Package the app with the local stage configuration"></a>4. Package the app with the local stage configuration</h3><p>Here we are packaging the app as before, but passing the <code>--stage</code> flag to specify we want the local configuration:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chalice package --stage <span class="built_in">local</span> --pkg-format terraform .</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-Apply-the-Terraform-code-against-LocalStack"><a href="#5-Apply-the-Terraform-code-against-LocalStack" class="headerlink" title="5. Apply the Terraform code against LocalStack"></a>5. Apply the Terraform code against LocalStack</h3><p>We are ready to apply the Terraform code and create our infrastructure locally:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Refreshing against LocalStack can be unstable. We don&#x27;t really need it here so we can disable it</span></span><br><span class="line">terraform apply -refresh=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>If everything goes right, you should have the same application you had in AWS up and running locally. You may have also noticed that applying against LocalStack is blazing fast compared to AWS.</p>
+<p>During development iteration, you can use the following script to package, fix and apply your code quickly against LocalStack:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chalice package --pkg-format terraform . --stage <span class="built_in">local</span></span><br><span class="line">cat &lt;&lt;&lt; $(jq <span class="string">&#x27;del(.provider.aws)&#x27;</span> chalice.tf.json) &gt; chalice.tf.json</span><br><span class="line">terraform apply -auto-approve -refresh=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>Nothing that we haven’t seen before, but pretty useful to have on a <code>apply.sh</code> script.</p>
+<h2 id="Running-our-local-functions"><a href="#Running-our-local-functions" class="headerlink" title="Running our local functions"></a>Running our local functions</h2><p>We can trigger our HTTP enabled function by hitting the local API Gateway url using <code>curl</code>:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:4566/restapis/ur5mwyfjy6/<span class="built_in">local</span>/_user_request_/</span><br><span class="line">&#123;<span class="string">&quot;hello&quot;</span>:<span class="string">&quot;world&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>To hit the local SNS and SQS server and trigger those functions, we will use <code>awslocal</code>: </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">awslocal sns publish --topic-arn arn:aws:sns:us-east-1:000000000000:chalice-tf-topic --message <span class="string">&quot;local SNS&quot;</span></span><br><span class="line">awslocal sqs send-message --queue-url http://localhost:4566/000000000000/chalice-tf-queue --message-body <span class="string">&quot;local SQS&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>See the logs of the local functions and confirm they ran:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">chalice-local logs --stage <span class="built_in">local</span> --name handle_sns_message</span><br><span class="line"></span><br><span class="line">2021-09-06 20:09:48.453000 57bc1a START RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb Version: <span class="variable">$LATEST</span></span><br><span class="line">2021-09-06 20:09:48.457000 57bc1a</span><br><span class="line">2021-09-06 20:09:48.461000 57bc1a Received message with subject: None, message: <span class="built_in">local</span> SNS</span><br><span class="line">2021-09-06 20:09:48.469000 57bc1a END RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb</span><br><span class="line">2021-09-06 20:09:48.473000 57bc1a</span><br><span class="line">2021-09-06 20:09:48.481000 57bc1a REPORT RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb	Init Duration: 923.26 ms	Duration: 4.44 ms	Billed Duration: 5 ms	Memory Size: 1536 MB	Max Memory Used: 46 MB</span><br><span class="line">2021-09-06 20:09:48.485000 57bc1a</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">chalice-local logs --stage <span class="built_in">local</span> --name handle_sqs_message</span><br><span class="line"></span><br><span class="line">2021-09-06 20:10:02.453000 4c64e0 START RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb Version: <span class="variable">$LATEST</span></span><br><span class="line">2021-09-06 20:10:02.457000 4c64e0</span><br><span class="line">2021-09-06 20:10:02.461000 4c64e0 Received message with contents: <span class="built_in">local</span> SQS</span><br><span class="line">2021-09-06 20:10:02.469000 4c64e0 END RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb</span><br><span class="line">2021-09-06 20:10:02.473000 4c64e0</span><br><span class="line">2021-09-06 20:10:02.481000 4c64e0 REPORT RequestId: 08bf7fcb-a441-126b-ffcf-61aec76763fb	Init Duration: 923.26 ms	Duration: 5.14 ms	Billed Duration: 6 ms	Memory Size: 1536 MB	Max Memory Used: 46 MB</span><br><span class="line">2021-09-06 20:10:02.485000 4c64e0</span><br></pre></td></tr></table></figure>
+
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to"><span class="toc-number">1.</span> <span class="toc-text">How-to</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Configure-and-start-LocalStack"><span class="toc-number">1.1.</span> <span class="toc-text">1. Configure and start LocalStack:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Configure-the-AWS-Terraform-provider-to-point-to-LocalStack"><span class="toc-number">1.2.</span> <span class="toc-text">2. Configure the AWS Terraform provider to point to LocalStack:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Add-a-local-stage-to-the-Chalice-config-file"><span class="toc-number">1.3.</span> <span class="toc-text">3. Add a local stage to the Chalice config file</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Package-the-app-with-the-local-stage-configuration"><span class="toc-number">1.4.</span> <span class="toc-text">4. Package the app with the local stage configuration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Apply-the-Terraform-code-against-LocalStack"><span class="toc-number">1.5.</span> <span class="toc-text">5. Apply the Terraform code against LocalStack</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Running-our-local-functions"><span class="toc-number">2.</span> <span class="toc-text">Running our local functions</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&text=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&title=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&is_video=false&description=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=AWS Chalice + Terraform Part 2: Local Development With LocalStack&body=Check out this article: https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&title=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&title=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&title=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&title=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&name=AWS Chalice + Terraform Part 2: Local Development With LocalStack&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://samuelmurillo.xyz/2021/10/02/AWS-Chalice-Terraform-2/&t=AWS Chalice + Terraform Part 2: Local Development With LocalStack"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2021
+    Samuel Murillo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+  <script async defer data-website-id="68f899a3-bd5d-4b32-b416-4bad0724958e" src="https://umami-samuelmurillo-xyz.herokuapp.com/umami.js"></script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
