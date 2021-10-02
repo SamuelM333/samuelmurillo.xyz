@@ -1,14 +1,20 @@
 ---
 title: "AWS Chalice + Terraform Part 2: Local development with LocalStack"
 date: 2021-09-15 22:27:25
+description: Learn how to work on your Chalice app locally using LocalStack 
 tags:
   - aws
   - chalice
+  - docker
   - lambda
+  - localstack
   - python
   - serverless
-  - localstack
-  - docker
+  - sns
+  - sqs
+  - terraform
+categories:
+  - "AWS Chalice + Terraform"
 ---
 
 In part 1 we went through the basics of AWS Chalice and how to integrate it with Terraform. You can check that here:
@@ -21,11 +27,11 @@ It is possible to deploy our infrastructure against [LocalStack](https://github.
 
 ## How-to
 
-Follow https://github.com/localstack/localstack#running to get up and running with LocalStack.
+Follow https://github.com/localstack/localstack#running to get up and running with LocalStack. You require to have Docker installed.
 
 The LocalStack team provides [chalice-local](https://github.com/localstack/chalice-local), a tool that will be useful for checking logs and invoking our functions.
 
-One more tool that we are going to use is [awscli-local](https://github.com/localstack/awscli-local), which is simply the AWS CLI with some configuration to run against LocalStack, instead of actual AWS servers.
+One more tool also provided by the LocalStack team that we are going to use is [awscli-local](https://github.com/localstack/awscli-local), which is simply the AWS CLI with some configuration to run against LocalStack, instead of actual AWS servers.
 
 We can install all these tools using `pip`:
 
@@ -48,7 +54,7 @@ Keep in mind that once we stop the server, **all infrastructure will be lost**.
 
 ### 2. Configure the AWS Terraform provider to point to LocalStack:
 
-We need to tell Terraform that we don't want to hit the default AWS endpoints, but our own. We also need to mock authentication and disable some checks to speed up the process. We can do this by modifying the AWS provider: 
+We need to tell Terraform that we don't want to hit the default AWS endpoints, but our own instead. We also need to mock authentication and disable some checks to speed up the process. We can do this by modifying the AWS provider: 
 
 ```terraform
 provider "aws" {
@@ -87,6 +93,13 @@ provider "aws" {
   }
 }
 ```
+
+{#
+TODO
+diff and patch to add/remove aws local provider
+`terraform init -backend=false`
+delete tfstate file when done
+#}
 
 You can read more about the AWS Terraform provider endpoint customization here:
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack
@@ -157,7 +170,7 @@ terraform apply -auto-approve -refresh=false
 
 Nothing that we haven't seen before, but pretty useful to have on a `apply.sh` script.
 
-## Testing our local functions
+## Running our local functions
 
 We can test our HTTP enabled function by hitting the local API Gateway url using `curl`:
 
@@ -199,8 +212,10 @@ chalice-local logs --stage local --name handle_sqs_message
 2021-09-06 20:10:02.485000 4c64e0
 ```
 
-## Closing thoughts
+{#
+## What's next
 
-Hopefully with this local setup you can increase your development speed and comfort. Up next, let's get ready for production release. You can check the third part of this series here:
+Hopefully with this local setup you can increase your development speed and comfort. Up next, let's get ready for production release, with tips for bigger codebases, logging, tracing, testing and more. You can check the third part of this series here:
 
 {% post_link AWS-Chalice-Terraform-3 %}
+#}
