@@ -8,6 +8,8 @@ tags:
   - lambda
   - python
   - serverless
+  - sns
+  - sqs
   - terraform
 categories:
   - "AWS Chalice + Terraform"
