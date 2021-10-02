@@ -1,6 +1,6 @@
 ---
 title: "AWS Chalice + Terraform Part 2: Local development with LocalStack"
-date: 2021-09-15 22:27:25
+date: 2021-10-02 10:40:48
 description: Learn how to work on your Chalice app locally using LocalStack 
 tags:
   - aws
@@ -172,7 +172,7 @@ Nothing that we haven't seen before, but pretty useful to have on a `apply.sh` s
 
 ## Running our local functions
 
-We can test our HTTP enabled function by hitting the local API Gateway url using `curl`:
+We can trigger our HTTP enabled function by hitting the local API Gateway url using `curl`:
 
 ```sh
 curl http://localhost:4566/restapis/ur5mwyfjy6/local/_user_request_/
@@ -186,7 +186,7 @@ awslocal sns publish --topic-arn arn:aws:sns:us-east-1:000000000000:chalice-tf-t
 awslocal sqs send-message --queue-url http://localhost:4566/000000000000/chalice-tf-queue --message-body "local SQS"
 ```
 
-See the logs of the local functions:
+See the logs of the local functions and confirm they ran:
 
 ```sh
 chalice-local logs --stage local --name handle_sns_message
