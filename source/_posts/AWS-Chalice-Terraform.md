@@ -9,6 +9,8 @@ tags:
   - python
   - serverless
   - terraform
+categories:
+  - "AWS Chalice + Terraform"
 ---
 
 
