@@ -23,6 +23,8 @@ YAML sucks, but that's a whole different story. You can read a bit more on the s
 - [YAML sucks](https://github.com/cblp/yaml-sucks) by Yuriy Syrovetskiy 
 - [Hate YAML!](https://kula.blog/posts/yaml/) by Park Sehun
 - [Why YAML is used for configuration when it's so bad and what can you do about it?](https://parksehun.medium.com/why-you-hate-yaml-and-how-to-tackle-it-3e8471cf1ca8) by Kris Kula 
+- [YAML - Anchors, References, Extend](https://blog.daemonl.com/2016/02/yaml.html) by daemonl
+  - This post has a more positive note on YAML, even calling it "pretty cool", but I'm sharing it anyways to showcase the mess that anchors in YAML are.
 
 The average length of a `serverless.yml` file from a project from my team is around 300 lines, and that's with **a lot** of file import calls (`${file(./environment.yml)}` for example).
 
@@ -48,6 +50,8 @@ Node.js has high entropy. That's my nice way of saying that it breaks often.
 
 ## Plugin hell
 
+KISS
+
 https://github.com/sbstjn/serverless-stack-output
 
 https://wb.serverless.com/plugins/serverless-offline
@@ -56,6 +60,8 @@ https://www.npmjs.com/package/serverless-offline-sns
 https://serverless.com/plugins/serverless-localstack/
 
 ## Dead community
+
+https://github.com/CoorpAcademy/serverless-plugins/pull/166
 
 ## Poor development experience
 
