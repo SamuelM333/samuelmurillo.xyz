@@ -45,6 +45,8 @@ This creates a simple REST API with a hello world endpoint.
 
 Now the fun part: let's package and export this simple application to Terraform:
 
+{# TODO: Make terraform sub folder #}
+
 ```sh
 chalice package --pkg-format terraform .
 ```
@@ -109,11 +111,12 @@ curl https://ht0npswgm8.execute-api.us-east-1.amazonaws.com/api
 {"hello":"world"}
 ```
 
-This is a minimal example of AWS Chalice, but we can do better.
+If you want to read more about setting up a REST API using Chalice, you can follow https://aws.github.io/chalice/tutorials/basicrestapi.html
+
 
 ## Add your own Terraform code
 
-Let's create an SQS queue and an SNS topic so we can test those triggers as well.
+This is a minimal example of AWS Chalice, but we can do better. Let's create an SQS queue and an SNS topic so we can test those triggers as well.
 
 Create a Terraform file with the following code:
 
@@ -142,12 +145,14 @@ Now open `app.py` and add these two functions:
 @app.on_sns_message(topic='chalice-tf-topic')
 def handle_sns_message(event):
     print(f"Received message with subject: {event.subject}, message: {event.message}")
+    return {'subject': event.subject, 'message': event.message}
 
 
 @app.on_sqs_message(queue='chalice-tf-queue', batch_size=1)
 def handle_sqs_message(event):
     for record in event:
         print(f"Received message with contents: {record.body}")
+        return {"message": record.body}
 ```
 
 Package the new Chalice code:

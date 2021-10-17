@@ -39,6 +39,14 @@ We can install all these tools using `pip`:
 pip install localstack chalice-local awscli-local
 ```
 
+You can add these to `requirements-dev.txt` for local development purposes:
+```plain requirements-dev.txt
+-r requirements-ci.txt  # Installs the base dependencies
+awscli-local
+chalice-local
+localstack
+```
+
 These are the steps followed to run the sample app we have built so far locally:
 
 ### 1. Configure and start LocalStack:

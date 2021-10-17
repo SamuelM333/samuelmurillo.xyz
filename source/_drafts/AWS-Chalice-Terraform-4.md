@@ -92,6 +92,9 @@ for blueprint in BLUEPRINTS: app.register_blueprint(blueprint)
 
 Read more about blueprint registration here: https://aws.github.io/chalice/topics/blueprints.html#blueprint-registration
 
+In case you are wondering, this is how you write tests for functions declared on a blueprint:
+...
+
 ## AWS Lambda Powertools
 
 ### Logging and tracing
