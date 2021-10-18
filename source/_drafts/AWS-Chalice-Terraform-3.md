@@ -31,9 +31,9 @@ pytest
 
 We will follow [Chalice's testing guide](https://aws.github.io/chalice/topics/testing.html) for the basics, then add additional tests on top of it.
 
-```
-mkdir tests
-touch tests/{__init__.py,test_app.py}
+```sh
+mkdir -p tests/unit/
+touch tests/unit/{__init__.py,test_app.py}
 ```
 
 ### The Chalice test client
@@ -61,7 +61,7 @@ See https://aws.github.io/chalice/topics/testing.html#environment-variables for 
 
 The following test checks the status code and payload of a REST enabled lambda:
 
-```python tests/test_app.py
+```python tests/unit/test_app.py
 from chalice.test import Client
 
 from app import app
@@ -83,7 +83,7 @@ def bar(event, context):
     return {'event': event}
 ```
 
-```python tests/test_app.py
+```python tests/unit/test_app.py
 def test_foo_function():
     with Client(app) as client:
         result = client.lambda_.invoke('bar', {'my': 'event'})
@@ -92,7 +92,7 @@ def test_foo_function():
 
 Note: If you run into an error like the following:
 ```
-FAILED tests/test_app.py::test_index_function - TypeError: index() takes 0 positional arguments but 2 were given
+FAILED tests/unit/test_app.py::test_index_function - TypeError: index() takes 0 positional arguments but 2 were given
 ```
 
 It could mean that you are trying to test a function triggered by `@app.route` using `client.lambda_.invoke`. This is reserved to functions declared using `@app.lambda_function()`. Use `client.http` instead.
@@ -102,7 +102,7 @@ It could mean that you are trying to test a function triggered by `@app.route` u
 Let's test the [SNS and SQS functions created on part 1 of the series](/2021/07/27/AWS-Chalice-Terraform/#Add-your-own-Terraform-code), like so:
 
 
-```python tests/test_app.py
+```python tests/unit/test_app.py
 def test_sns_handler():
     with Client(app) as client:
         response = client.lambda_.invoke(
@@ -127,31 +127,131 @@ Check [Chalice's documentation on testing](https://aws.github.io/chalice/topics/
 
 ## Writing integration tests with LocalStack
 
+Let's go one step further: using LocalStack, we can trigger our functions like we would in a real environment, then check that the function actually ran. If you need a refresher on how to set up your Chalice project to run against LocalStack, check [Part 2 of the series](/2021/10/02/AWS-Chalice-Terraform-2/).
+
+Let's start by creating a separate folder for our integration tests:
+
+```sh
+mkdir tests/integration
+touch tests/integration/{__init__.py,test_app.py}
+```
+
+### Testing strategy
+
+AWS Lambda doesn't provide a straight-forward way of checking that a Lambda has ran, so we need to automatize the process you would normally do with the AWS Console: trigger your function, then going to CloudWatch to see if there are any execution logs. In this case, we will send a random UUID and then check that same payload was logged in our output, but feel free to adjust the assertion for your use case.
+
+### boto3 clients for LocalStack
+
+We will be manipulating AWS resources created locally in LocalStack, so we need to tell `boto3` that we are not hitting AWS servers but our own instead. We also need to mock AWS access keys:
+
+```python tests/integration/test_app.py
+import boto3
+
+localstack_url = "http://localhost:4566"
+
+# Common kwargs for boto3 client init
+boto3_kwargs = {
+    "region_name": "us-east-1",
+    "aws_access_key_id": "aws_access_key_id",
+    "aws_secret_access_key": "aws_secret_access_key",
+    "endpoint_url": localstack_url
+}
+
+sns = boto3.client('sns', **boto3_kwargs)
+sqs = boto3.client('sqs', **boto3_kwargs)
+logs = boto3.client('logs', **boto3_kwargs)
+```
+
+We will be using the SNS and SQS clients to publish content to our topics and queues respectively, and the CloudWatch logs client to check the content of our log groups.
+
+### Triggering our Lambdas within tests
+
+We are all set to write our integration tests. This is how we would do it:
+
+```python tests/integration/test_app.py
+import json
+from time import sleep
+from uuid import uuid4
+
+import boto3
+
+localstack_url = "http://localhost:4566"
+
+# We can get these from the Terraform output
+topic_arn = "arn:aws:sns:us-east-1:000000000000:chalice-tf-topic"
+queue_url = "http://localhost:4566/000000000000/chalice-tf-queue"
+
+# Common kwargs for boto3 client init
+boto3_kwargs = {
+    "region_name": "us-east-1",
+    "aws_access_key_id": "aws_access_key_id",
+    "aws_secret_access_key": "aws_secret_access_key",
+    "endpoint_url": localstack_url
+}
+
+sns = boto3.client('sns', **boto3_kwargs)
+sqs = boto3.client('sqs', **boto3_kwargs)
+logs = boto3.client('logs', **boto3_kwargs)
+
+
+def get_log_events_from_log_group(log_group_name):
+    """This helper function returns the latest event of the specified log group"""
+
+    response = logs.describe_log_streams(
+        logGroupName=log_group_name,
+        orderBy='LastEventTime',
+        descending=True,
+    )
+
+    log_stream_name = response["logStreams"][0]["logStreamName"]
+
+    response = logs.get_log_events(
+        logGroupName=log_group_name,
+        logStreamName=log_stream_name,
+    )
+
+    return response
+
+
+def test_sns_execution():
+    _id = str(uuid4())  # Generate an unique ID to assert the execution of the function
+    response = sns.publish(
+        TargetArn=topic_arn,
+        Message=_id,
+        MessageStructure='json'
+    )
+    sleep(3)  # Wait for LocalStack to execute the function and log to CloudWatch
+
+    response = get_log_events_from_log_group("/aws/lambda/chalice-tf-local-handle_sns_message")
+    log_message = '\n'.join(event["message"] for event in response["events"])  # Join all log events into one string
+
+    assert _id in log_message  # Look for our previously generated unique payload in the execution logs
+
+
+def test_sqs_execution():
+    _id = str(uuid4())  # Generate an unique ID to assert the execution of the function
+    sqs.send_message(
+        QueueUrl=queue_url,
+        MessageBody=_id,
+    )
+    sleep(3)  # Wait for LocalStack to execute the function and log to CloudWatch
+
+    response = get_log_events_from_log_group("/aws/lambda/chalice-tf-local-handle_sqs_message")
+    log_message = '\n'.join(event["message"] for event in response["events"])  # Join all log events into one string
+
+    assert _id in log_message  # Look for our previously generated unique payload in the execution logs
+```
+
+Note: These test expect that LocalStack is up and running, and that the Terraform infrastructure has been applied.
+
+### See also
+
+https://github.com/localstack/localstack-python-client for a boto3 client pre-configured to run against LocalStack
+
 https://github.com/beelit94/python-terraform
-https://github.com/localstack/localstack-python-client
-
-Note that both of these packages are entirely optional and may be replaced easily with our custom code.
-
 See [A journey to AWS Lambda integration testing with Python, Localstack, and Terraform](https://medium.com/craftsmenltd/a-journey-to-aws-lambda-integration-testing-with-python-localstack-and-terraform-2f17043c7dda) by [@melon.ruet](https://medium.com/@melon.ruet) for reference on how to init, apply and destroy Terraform resources using plain Python and the [`subprocess`](https://docs.python.org/3/library/subprocess.html) library.
 
-localstack-python-client Boto3
-
-```python
-endpoint_url = "http://localhost:4566"
-client = boto3.client("lambda", endpoint_url=endpoint_url)
-```
-
-```plain requirements-ci.txt
--r requirements.txt
-pytest
-python-terraform
-localstack
-localstack-client
-```
-
-**Don't forget to remove `localstack` from `requirements-dev.txt`**
-
-If you want to test the infrastructure itself, you can check out [Terratest](https://terratest.gruntwork.io).
+If you want to test the infrastructure itself, check out [Terratest](https://terratest.gruntwork.io).
 
 ## What's next
 
