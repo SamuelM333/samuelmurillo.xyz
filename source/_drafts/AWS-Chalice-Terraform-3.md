@@ -4,12 +4,14 @@ date: 2021-09-09 12:33:25
 tags:
   - aws
   - chalice
+  - docker
   - lambda
+  - localstack
   - python
   - serverless
+  - sns
+  - sqs
   - testing
-  - localstack
-  - docker
 categories:
   - "AWS Chalice + Terraform"
 ---
