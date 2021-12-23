@@ -21,30 +21,40 @@ This is the third part of the Chalice + Terraform series. You can check part 1 a
 {% post_link AWS-Chalice-Terraform %}
 {% post_link AWS-Chalice-Terraform-2 %}
 
+This part is focused on testing our application, focusing on unit testing and end-to-end testing. Let's get started! 
 
 ## Writing unit tests
 
-We can go a step further and write unit tests
+We will follow [Chalice's testing guide](https://aws.github.io/chalice/topics/testing.html) for the basics, then add additional tests on top of it.
 
+First, let's install `pytest`, our test runner of choice:
+
+```sh
+pip install pytest
+```
+
+You can add these to `requirements-ci.txt` for CI/CD tooling purposes:
 ```plain requirements-ci.txt
 -r requirements.txt
 pytest
 ```
 
-We will follow [Chalice's testing guide](https://aws.github.io/chalice/topics/testing.html) for the basics, then add additional tests on top of it.
+Then, let's create our test folders and the files we will need:
 
 ```sh
 mkdir -p tests/unit/
 touch tests/unit/{__init__.py,test_app.py}
 ```
 
+As you can see, we created a `unit` subfolder within `tests`, that way we can separate our end-to-end tests later on.
+
 ### The Chalice test client
 
-...
-https://aws.github.io/chalice/api#Client
-- Bare lambdas: https://aws.github.io/chalice/api#TestLambdaClient
-- HTTP: https://aws.github.io/chalice/api#TestHTTPClient
-- Events: https://aws.github.io/chalice/api#TestEventsClient
+Chalice has a built-in test suite, located at [`chalice.test.Client`](https://aws.github.io/chalice/api#Client), capable of calling the lambda functions created within the project in multiple ways:
+
+- Bare lambdas: [https://aws.github.io/chalice/api#TestLambdaClient](TestLambdaClient)
+- HTTP routes: [https://aws.github.io/chalice/api#TestHTTPClient](TestHTTPClient)
+- Events: [https://aws.github.io/chalice/api#TestEventsClient](TestEventsClient)
 
 To use the configuration of a specific stage during tests, use:
 

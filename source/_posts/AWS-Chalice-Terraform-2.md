@@ -220,10 +220,16 @@ chalice-local logs --stage local --name handle_sqs_message
 2021-09-06 20:10:02.485000 4c64e0
 ```
 
-{#
+intermittent SQS Error
+```
+curl http://localhost:4566/restapis/a0ah4jhr1g/local/_user_request_/
+{"errorType": "InvocationException", "errorMessage": "Lambda process returned with error. Result: {\"errorType\":\"KeyError\",\"errorMessage\":\"'Records'\",\"stackTrace\":[\"  File \\\"/var/task/chalice/app.py\\\", line 1595, in __call__\\n    return self.handler(event_obj)\\n\",\"  File \\\"/var/task/chalicelib/events.py\\\", line 14, in handle_sqs_message\\n    for record in 
+```
+
 ## What's next
 
 Hopefully with this local setup you can increase your development speed and comfort. Up next, let's get ready for production release, with tips for bigger codebases, logging, tracing, testing and more. You can check the third part of this series here:
 
+{#
 {% post_link AWS-Chalice-Terraform-3 %}
 #}
