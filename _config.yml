@@ -105,9 +105,9 @@ ignore:
 sitemap:
   path: sitemap.xml
   template: ./sitemap_template.xml
-  rel: false
+  rel: true
   tags: false
-  categories: false
+  categories: true
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
