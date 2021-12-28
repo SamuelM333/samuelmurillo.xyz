@@ -109,6 +109,13 @@ sitemap:
   tags: false
   categories: true
 
+robotstxt:
+  useragent: "*"
+  disallow:
+    - /tags/
+  sitemap: 
+    - /sitemap.xml
+
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
