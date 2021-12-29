@@ -1,6 +1,6 @@
 ---
-title: "AWS Chalice + Terraform Part 4: Getting to production"
-date: 2021-09-09 12:33:25
+title: "AWS Chalice + Terraform Part 4: Best practices"
+date: 2021-12-29 12:33:25
 tags:
   - aws
   - chalice
@@ -12,17 +12,17 @@ categories:
   - "AWS Chalice + Terraform"
 ---
 
-This is the third part of the Chalice + Terraform series. You can check previous parts here:
+This is the fourth part of the Chalice + Terraform series. You can check previous parts here:
 
 {% post_link AWS-Chalice-Terraform %}
 {% post_link AWS-Chalice-Terraform-2 %}
 {% post_link AWS-Chalice-Terraform-3 %}
 
-This time we will focus on getting production ready. That's a very broad objective, so we will narrow it down to:
-- Clean and maintainable codebase
-- Observability
-- Secrets management
-- Continuos integration and delivery (CI/CD)
+This time we will focus on getting production ready by following best practices. That's a very broad objective, so we will narrow it down to:
+1. Clean and maintainable codebase
+1. Improve observability by introducing(?) logging and tracing
+1. Secrets management
+1. Continuos integration and delivery (CI/CD)
 
 ## Handle bigger codebases using blueprints
 
@@ -43,7 +43,7 @@ touch chalicelib/events.py
 
 Now, let's add HTTP events to `chalicelib/api.py`
 
-```python
+```python chalicelib/api.py
 from chalice import Blueprint
 
 extra_routes = Blueprint(__name__)
@@ -56,7 +56,7 @@ def foo():
 
 Add some subscription events to `chalicelib/events.py`
 
-```python
+```python chalicelib/events.py
 from chalice import Blueprint
 
 extra_events = Blueprint(__name__)
@@ -68,7 +68,7 @@ def handle_sns_message_blueprint(event):
 
 To easily register all blueprints, let's create a set with all of them inside `__init__.py`
 
-```python
+```python chalicelib/__init__.py
 from chalicelib.api import extra_routes
 from chalicelib.events import extra_events
 
@@ -80,7 +80,7 @@ BLUEPRINTS = (
 
 Lastly, let's elegantly register our blueprints on `app.py`:
 
-```python
+```python app.py
 from chalice import Chalice
 
 from chalicelib import BLUEPRINTS
@@ -92,16 +92,29 @@ for blueprint in BLUEPRINTS: app.register_blueprint(blueprint)
 
 Read more about blueprint registration here: https://aws.github.io/chalice/topics/blueprints.html#blueprint-registration
 
+### Test functions inside a blueprint
+
 In case you are wondering, this is how you write tests for functions declared on a blueprint:
-...
 
-## AWS Lambda Powertools
+```python tests/unit/test_blueprint.py
+from chalice.test import Client
 
-### Logging and tracing
+from chalicelib.api import extra_routes
 
-https://awslabs.github.io/aws-lambda-powertools-python/latest/#features
+def test_foo_function():
+    with Client(extra_routes) as client:
+        result = client.lambda_.invoke('bar', {'my': 'event'})
+        assert result.payload == {'event': {'my': 'event'}}
+```
 
-```python
+## Observability
+
+### AWS Lambda Powertools
+
+https://awslabs.github.io/aws-lambda-powertools-python/
+https://aws.github.io/chalice/topics/middleware.html#integrating-with-aws-lambda-powertools
+
+```python app.py
 from aws_lambda_powertools import Logger
 from aws_lambda_powertools import Tracer
 from chalice import Chalice, ConvertToMiddleware
@@ -123,13 +136,23 @@ def inject_route_info(event, get_response):
     return get_response(event)
 ```
 
-### See also
+### Datadog
 
-- [Parsers](https://awslabs.github.io/aws-lambda-powertools-python/latest/utilities/parser/)
+## Secrets management
 
-## Datadog
+### Hashicorp Vault
+
+### AWS Secrets manager
 
 ## CI/CD
+
+### Deployment
+
+### Run your tests
+
+## See also
+
+- [Parsers](https://awslabs.github.io/aws-lambda-powertools-python/latest/utilities/parser/)
 
 ## Cookiecutter template
 

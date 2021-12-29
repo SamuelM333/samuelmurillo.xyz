@@ -272,5 +272,6 @@ Note: These test expect that LocalStack is up and running, and that the Terrafor
 
 ## What's next
 
-Up next, let's get ready for production release, with tips for bigger codebases, logging, tracing, testing and more. {# You can check the fourth part of this series here:
+It's time to get ready for production release, with tips for bigger codebases, logging, tracing, secrets management and more. {# You can check the fourth part of this series here:
+
 {% post_link AWS-Chalice-Terraform-4 %} #} To be published soon:tm:
