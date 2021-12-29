@@ -228,7 +228,6 @@ curl http://localhost:4566/restapis/a0ah4jhr1g/local/_user_request_/
 
 ## What's next
 
-Hopefully with this local setup you can increase your development speed and comfort. Up next, let's get ready for production release, with tips for bigger codebases, logging, tracing, testing and more. You can check the third part of this series here:
-
+Hopefully with this local setup you can increase your development speed and comfort. Up next, let's test our new app. You can check the third part of the series here:
 
 {% post_link AWS-Chalice-Terraform-3 %}
