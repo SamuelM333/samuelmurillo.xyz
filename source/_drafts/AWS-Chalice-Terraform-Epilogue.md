@@ -1,6 +1,6 @@
 ---
-title: Should you use AWS Chalice for your next project?
-date: 2021-09-19 22:23:45
+title: "AWS Chalice + Terraform Epilogue: Should you use Chalice for your next project?"
+date: 2022-01-01 22:23:45
 description:
 tags:
   - aws
@@ -9,6 +9,8 @@ tags:
   - python
   - serverless
   - terraform
+categories:
+  - "AWS Chalice + Terraform"
 ---
 
 {% post_link AWS-Chalice-Terraform %}
@@ -22,7 +24,7 @@ Chalice is not the most popular serverless frameworks around, that's a given. Wh
 
 ## Chalice is simple
 
-[The Zen of Python](https://www.python.org/dev/peps/pep-0020/) said it best: Simple is better than complex. Chalice has less moving parts compared to the Serverless Framework, which runs on Node.js (a bloated and unreliable platform in my opinion) and depends on plugins, often unmaintained. The Serverless Framework also has a key disadvantage, being that in order to support multiple runtimes and languages, it has to implement convoluted config files for generic scenarios that are a nightmare to maintain and scale. Chalice is written on pure Python and focused on a concrete use case, making it less prone to break, easier to maintain and less scary to update.
+[The Zen of Python](https://www.python.org/dev/peps/pep-0020/) said it best: Simple is better than complex. Chalice has less moving parts compared to the Serverless Framework, which runs on Node.js (a bloated and unreliable platform in my opinion) and depends on plugins, often unmaintained. The Serverless Framework also has a key disadvantage, being that in order to support multiple runtimes and languages, it has to implement convoluted config files for generic scenarios that are a nightmare to maintain at scale. Chalice is written on pure Python and focused on a concrete use case, making it less prone to break, easier to maintain and less scary to update.
 
 ## Familiarity
 
