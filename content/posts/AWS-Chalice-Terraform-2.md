@@ -162,7 +162,8 @@ chalice package --stage local --pkg-format terraform .
 We are ready to apply the Terraform code and create our infrastructure locally:
 
 ```sh
-# Refreshing against LocalStack can be unstable. We don't really need it here so we can disable it
+# Refreshing against LocalStack can be unstable. 
+# We don't really need it here so we can disable it
 terraform apply -refresh=false
 ```
 
@@ -221,7 +222,8 @@ chalice-local logs --stage local --name handle_sqs_message
 ```
 
 intermittent SQS Error
-```
+
+```sh
 curl http://localhost:4566/restapis/a0ah4jhr1g/local/_user_request_/
 {"errorType": "InvocationException", "errorMessage": "Lambda process returned with error. Result: {\"errorType\":\"KeyError\",\"errorMessage\":\"'Records'\",\"stackTrace\":[\"  File \\\"/var/task/chalice/app.py\\\", line 1595, in __call__\\n    return self.handler(event_obj)\\n\",\"  File \\\"/var/task/chalicelib/events.py\\\", line 14, in handle_sqs_message\\n    for record in 
 ```

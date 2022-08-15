@@ -5,7 +5,10 @@ date: 2021-08-09 21:15:25
 
 I'm an SRE with a software development background, dedicated to observability, development experience and cloud solutions. <!-- more -->
 
-![Myself](./about/me.jpeg)
+<!-- ![Myself](./me.jpeg) -->
+{{ $image := .Resources.GetMatch "me.jpg" }}
+<img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}">
+
 
 ## Testimonials
 

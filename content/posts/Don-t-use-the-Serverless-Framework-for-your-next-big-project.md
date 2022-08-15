@@ -1,15 +1,18 @@
 ---
 title: Don't use the Serverless Framework for your next big project
+description: ''
+date: 2022-08-01 00:00:00
+draft: true
 tags:
   - aws
   - lambda
   - rant
   - serverless
 ---
-{# 
+<!-- 
 - The Serverless Framework, Serverless (capitalized), serverless.com: The actual [Serverless Framework](serverless.com)
 - serverless (lowercase), serverless infrastructure: The serverless paradigm, not the framework    
-#}
+-->
 
 For the past few years as a developer and as an SRE, I have worked with the [Serverless Framework](serverless.com) running on [AWS Lambda](https://aws.amazon.com/lambda/), integrated with [SQS](https://aws.amazon.com/sqs/), [SNS](https://aws.amazon.com/sns), [Kinesis](https://aws.amazon.com/kinesis) and [DynamoDB](https://aws.amazon.com/dynamodb).
 

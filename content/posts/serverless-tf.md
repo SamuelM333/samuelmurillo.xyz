@@ -1,6 +1,7 @@
 ---
 title: Frameworkless serverless with serverless.tf
-date: 2021-04-30 10:33:25
+draft: true
+date: 2022-08-01 00:00:00
 tags: 
 - aws
 - lambda

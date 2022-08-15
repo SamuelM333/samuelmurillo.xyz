@@ -1,6 +1,8 @@
 ---
 title: 'End-to-end distributed tracing for AWS Lambda, SNS and SQS using Datadog'
 date: 2021-06-04 08:33:25
+description: ''
+draft: true
 tags:
   - aws
   - datadog

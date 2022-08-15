@@ -1,6 +1,8 @@
 ---
 title: "AWS Chalice + Terraform Part 4: Best practices"
 date: 2021-12-29 12:33:25
+description: ''
+draft: true
 tags:
   - aws
   - chalice
