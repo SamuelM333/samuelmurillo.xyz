@@ -19,7 +19,7 @@ categories:
 
 In part 1 we went through the basics of AWS Chalice and how to integrate it with Terraform. You can check that here:
 
-{% post_link AWS-Chalice-Terraform %}
+{{< titleref "AWS Chalice + Terraform: A serverless codebase that makes sense" >}}
 
 So far we have deployed our infrastructure against the cloud. This could be a slow process during development, even more if debugging a pesky error.
 
@@ -102,12 +102,12 @@ provider "aws" {
 }
 ```
 
-{#
+<!--
 TODO
 diff and patch to add/remove aws local provider
 `terraform init -backend=false`
 delete tfstate file when done
-#}
+-->
 
 You can read more about the AWS Terraform provider endpoint customization here:
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack
@@ -221,15 +221,17 @@ chalice-local logs --stage local --name handle_sqs_message
 2021-09-06 20:10:02.485000 4c64e0
 ```
 
+<!--
 intermittent SQS Error
 
 ```sh
 curl http://localhost:4566/restapis/a0ah4jhr1g/local/_user_request_/
 {"errorType": "InvocationException", "errorMessage": "Lambda process returned with error. Result: {\"errorType\":\"KeyError\",\"errorMessage\":\"'Records'\",\"stackTrace\":[\"  File \\\"/var/task/chalice/app.py\\\", line 1595, in __call__\\n    return self.handler(event_obj)\\n\",\"  File \\\"/var/task/chalicelib/events.py\\\", line 14, in handle_sqs_message\\n    for record in 
 ```
+-->
 
 ## What's next
 
 Hopefully with this local setup you can increase your development speed and comfort. Up next, let's test our new app. You can check the third part of the series here:
 
-{% post_link AWS-Chalice-Terraform-3 %}
+{{< titleref "AWS Chalice + Terraform Part 3: Testing your app" >}}

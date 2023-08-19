@@ -1,71 +1,77 @@
-baseURL = 'http://samuelmurillo.xyz/'
-languageCode = 'en-us'
-title = 'Samuel Murillo - SRE'
-theme = 'archie'
-pygmentsstyle = "nord"
-pygmentscodefences = true
-pygmentscodefencesguesssyntax = true
-paginate=3
+baseURL = "http://samuelmurillo.xyz/"
+languageCode = "en-us"
+title = "Samuel Murillo - Infra guy"
+subtitle = "Some"
+
+theme = "hugo-ficurinia"
+
+author = "Samuel Murillo"
+copyright = "Samuel Murillo - [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)."
+
+paginate = 5
+summaryLength = 30
+enableEmoji = true
 
 [params]
-  mode="dark"
-  useCDN=true
-  dateform        = "Jan 2, 2006"
-  dateformShort   = "Jan 2"
-  dateformNum     = "2006-01-02"
-  dateformNumTime = "2006-01-02 15:04"
-  subtitle="Computer Engineer/Site Reliability Engineer"
+    description = "Samuel Murillo's blog about programming and other cool stuff"
+    author = "Samuel Murillo"
+    keywords = ["sre", "devops", "aws", "lambda", "serverless", "terraform", "python", "chalice"]
+    
+    # logo = "/logo.svg"
+    logo = ""
+    favicon = "/favicon.png"
+    faviconIco = "/favicon.ico"
+    appletouch = "/apple-touch-icon.png"
+    # svgicon = "/logo.svg"
+    svgicon = ""
+    icon512 = "/android-chrome-512x512.png"
+    imageInArticlePreview = true
+    enableShareOnFediverse = false
+    enableRelatedArticles = false
+    relatedArticlesNum = 2 
+    forceRedirect = true
+    showRss = false
 
-  # Subtitle for home
-  homeSubtitle = "Computer Engineer/Site Reliability Engineer"
+    enableFeatured = true
 
-  # Set disableReadOtherPosts to true in order to hide the links to other posts.
-  disableReadOtherPosts = false
+    # enableSidebarLayout = true
+    # tocInSidebar = true # if the sidebar is enbabled, show the TOC in the sidebar
 
-  # Enable sharing buttons, if you like
-  enableSharingButtons = false
+    # enable analytics using Umami
+    # umamiScriptUrl = "https://something.com/..."
+    # umamiWebsiteId = "example-tracking-code"
 
-  # Metadata mostly used in document's head
-  description = "Computer Engineer/Site Reliability Engineer"
-  keywords = "sre, devops, aws, lambda, serverless, terraform, python, chalice"
-  images = [""]
+[markup]
+    [markup.highlight]
+        codeFences = true
+        guessSyntax = true
+        lineNos = true
+        lineNumbersInTable = false
+        tabWidth = 4
+        style = "dracula"
+    [markup.tableOfContents]
+        endLevel = 5
+        ordered = false
+        startLevel = 1
 
-  [[params.social]]
-  name = "GitHub"
-  icon = "github"
-  url = "https://github.com/SamuelM333"
-
-  [[params.social]]
-  name = "LinkedIn"
-  icon = "linkedin"
-  url = "https://www.linkedin.com/in/samuel-murillo/"
-
-  [[params.social]]
-  name = "Email"
-  icon = "mail"
-  url = "mailto:contact@samuelmurillo.xyz"
-
-[taxonomies]
-    category = "blog"
-    tag      = "tags"
-    series   = "series"
-
-[[menu.main]]
-name = "Home"
-url = "/"
-weight = 1
-
-[[menu.main]]
-name = "All posts"
-url = "/posts"
-weight = 2
-
-[[menu.main]]
-name = "About"
-url = "/about"
-weight = 3
-
-[[menu.main]]
-name = "Tags"
-url = "/tags"
-weight = 4
+[menu]
+    [[menu.main]]
+        name = "About"
+        url = "/about"
+        weight = 3
+    [[menu.icons]]
+        identifier = "github"
+        weight = 10
+        name = "GitHub"
+        icon = "github"
+        url = "https://github.com/SamuelM333"
+    [[menu.icons]]
+        identifier = "linkedin"
+        name = "LinkedIn"
+        url = "https://www.linkedin.com/in/samuel-murillo/"
+        weight = 20
+    [[menu.icons]]
+        identifier = "email"
+        name = "Email"
+        url = "mailto:contact@samuelmurillo.xyz"
+        weight = 30

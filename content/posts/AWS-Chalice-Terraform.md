@@ -45,7 +45,7 @@ This creates a simple REST API with a hello world endpoint.
 
 Now the fun part: let's package and export this simple application to Terraform:
 
-{# TODO: Make terraform sub folder #}
+<!-- TODO: Make terraform sub folder -->
 
 ```sh
 chalice package --pkg-format terraform .
@@ -58,7 +58,7 @@ This does two main things:
 You will have to run this command every time you change your code, so make sure you add it to your CI/CD pipeline.
 
 Now, let's test it:
-```sh
+```
 terraform init && terraform plan
 
 Initializing the backend...
@@ -163,7 +163,7 @@ chalice package --pkg-format terraform .
 
 Apply the new terraform code:
 
-```sh
+```
 terraform apply
   ... (omit plan output)
 Plan: 8 to add, 3 to change, 1 to destroy.
@@ -206,7 +206,7 @@ See https://github.com/aws/chalice/issues/1665
 
 We can use the AWS CLI to get our CloudWatch logs:
 
-```
+```sh
 LOG_GROUP_NAME="/aws/lambda/chalice-tf-dev-handle_sns_message"
 LOG_STREAM_NAME=$(aws logs describe-log-streams --log-group-name "${LOG_GROUP_NAME}" | jq -r '.logStreams | sort_by(.creationTime) | .[-1].logStreamName')
 aws logs get-log-events --log-group-name "${LOG_GROUP_NAME}" --log-stream-name "${LOG_STREAM_NAME}" | jq -r '.events[] | select(has("message")) | .message'
@@ -310,4 +310,4 @@ cat <<< $(jq 'del(.provider.aws)' chalice.tf.json) > chalice.tf.json
 
 These are the basics you need to know to get started with Chalice and how to integrate it with Terraform. This post is the first part of a series about Chalice and how to run a solid and maintainable app. Check part 2, dedicated to local development and how to speed up the process of adding new features and bug squashing:
 
-{% post_link AWS-Chalice-Terraform-2 %}
+{{< titleref "AWS Chalice + Terraform Part 2: Local development with LocalStack" >}}

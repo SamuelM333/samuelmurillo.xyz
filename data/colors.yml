@@ -1,0 +1,5 @@
+dark:
+  accent: '#2bbc8a'  # pervasive accent color
+light:
+  accent: '#2bbc8a'
+

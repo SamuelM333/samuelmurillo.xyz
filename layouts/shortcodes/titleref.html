@@ -1,0 +1,16 @@
+{{- $title_anchor := (.Get 0) -}}
+{{- $title := trim (index (split $title_anchor "#") 0) " " -}}
+{{- $anchor := trim (index (split $title_anchor "#") 1) " " -}}
+{{- $desc := (.Get 1) | markdownify -}}
+{{- $filtered := where site.RegularPages "Title" $title -}}
+{{- $first_match := index $filtered 0 -}}
+{{- with $first_match -}}
+    {{- if $anchor -}}
+        {{- $anchor = printf `#%s` $anchor -}}
+    {{- end -}}
+    {{- $anchor = $anchor | default "" -}}
+    {{- $desc = $desc | default .Title -}}
+    {{- (printf `<a href="%s%s">%s</a>` .RelPermalink $anchor $desc) | safeHTML -}}
+{{- else -}}
+    {{- (errorf `%s: Page titled "%s" not found` .Position $title) -}}
+{{- end -}}

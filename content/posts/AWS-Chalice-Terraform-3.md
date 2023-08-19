@@ -2,6 +2,7 @@
 title: "AWS Chalice + Terraform Part 3: Testing your app"
 date: 2021-12-25 21:48:34
 description: Learn how to write unit and integration tests for Chalice apps
+# featured: true
 tags:
   - aws
   - chalice
@@ -18,8 +19,9 @@ categories:
 
 This is the third part of the Chalice + Terraform series. You can check part 1 and 2 here:
 
-{% post_link AWS-Chalice-Terraform %}
-{% post_link AWS-Chalice-Terraform-2 %}
+{{< titleref "AWS Chalice + Terraform: A serverless codebase that makes sense" >}} <br>
+
+{{< titleref "AWS Chalice + Terraform Part 2: Local development with LocalStack" >}}
 
 This part is dedicated to testing our application, focusing on unit and integration testing. Let's get started! 
 
@@ -261,7 +263,7 @@ def test_sqs_execution():
     assert _id in log_message  # Look for our previously generated unique payload in the execution logs
 ```
 
-Note: These test expect that LocalStack is up and running, and that the Terraform infrastructure has been applied.
+Note: These tests expect that LocalStack is up and running, and that the Terraform infrastructure has been applied.
 
 ### See also
 
@@ -272,6 +274,6 @@ Note: These test expect that LocalStack is up and running, and that the Terrafor
 
 ## What's next
 
-It's time to get ready for production release, with tips for bigger codebases, logging, tracing, secrets management and more. {# You can check the fourth part of this series here:
+It's time to get ready for production release, with tips for bigger codebases, logging, tracing, secrets management and more.
 
-{% post_link AWS-Chalice-Terraform-4 %} #} To be published soon:tm:
+To be published soon:tm:
